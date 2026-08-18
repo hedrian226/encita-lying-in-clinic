@@ -555,8 +555,9 @@
     .brand{min-width:0}.brand span{min-width:0}.brand-name{font-size:.94rem!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}.brand-sub{display:none}
     .brand-mark{width:38px!important;height:38px!important}
     .nav-cta{flex-shrink:0}.nav-cta .btn-primary{padding:10px 13px!important;font-size:.8rem!important}
-    .hero{padding:36px 0 26px!important;background:none!important}
-    .hero::before,.hero::after{display:none!important}
+    .hero{padding:36px 0 26px!important;background:linear-gradient(180deg,rgba(255,249,252,.72),rgba(255,249,252,.46))!important}
+    .hero::before{display:block!important;opacity:.34!important;filter:none!important}
+    .hero::after{display:block!important;opacity:.25!important}
     .hero-grid{grid-template-columns:1fr!important;gap:24px!important}
     .hero h1{font-size:clamp(2.45rem,15vw,3.6rem)!important;line-height:.96!important;margin:12px 0 16px!important}
     .lede{font-size:1rem!important;line-height:1.6}
@@ -586,14 +587,30 @@
     .schedule-card{grid-template-columns:1fr!important;padding:18px!important;gap:14px!important}.schedule-card .btn{width:100%;justify-content:center}
     .map-frame,.map-frame iframe{min-height:260px!important}
     .footer-grid{display:grid!important;grid-template-columns:1fr!important}.footer-cols{gap:28px!important}.footer-bottom{display:block!important}.footer-bottom>*+*{margin-top:6px}
-    /* Expensive desktop-only effects disabled on phones */
-    #react-bits-bg,.cursor-aura,.float-heart,.click-spark{display:none!important}
+    /* Mobile animation balance: ~55% of desktop. Keep atmosphere, remove expensive pointer effects. */
+    #react-bits-bg{display:block!important;opacity:.72!important}
+    .cursor-aura,.click-spark{display:none!important}
+    .float-heart{display:none!important}
+    .rb-orb{filter:blur(32px)!important;opacity:.34!important;animation-duration:24s!important}
+    .rb-orb.three{display:none!important}
+    .rb-grid{opacity:.18!important;animation-duration:32s!important}
     .rb-spotlight::after,.border-glow::before{display:none!important}
     .rb-spotlight,.review-card,.contact-card,.stat-card,.journey-card,.news-card{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-    .reveal{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
-    .shiny-text,.hero-float-pill,.pulse-path,.logo-aurora,.logo-aura,.logo-orbit,.logo-spark,.logo-heart,.logo-main-wrap,.logo-main-wrap::before,.logo-main{animation:none!important}
-    .logo-orbit,.logo-spark,.logo-heart,.logo-aurora{display:none!important}
-    .logo-aura{display:block!important;opacity:.18!important;filter:blur(14px)!important}
+    .reveal{opacity:0;transform:translateY(12px);filter:blur(3px);transition:opacity .48s ease,transform .48s ease,filter .48s ease}
+    .reveal.in{opacity:1;transform:none;filter:none}
+    .service-marquee-track{animation:marqueeMove 38s linear infinite!important;overflow:visible!important}
+    .shiny-text{animation-duration:4.8s!important}
+    .logo-aurora{display:block!important;animation:logoAuroraSpin 26s linear infinite!important;opacity:.42!important;filter:blur(24px)!important}
+    .logo-aura{display:block!important;animation:logoAura 5.8s ease-in-out infinite!important;opacity:.24!important;filter:blur(14px)!important}
+    .logo-orbit{display:block!important;animation-duration:24s!important;opacity:.38!important}
+    .logo-orbit.o2,.logo-orbit.o3{display:none!important}
+    .logo-spark{display:block!important;animation-duration:5.8s!important}
+    .logo-spark:nth-of-type(n+5){display:none!important}
+    .logo-heart{display:block!important;animation-duration:6.8s!important;opacity:.18!important}
+    .logo-heart:nth-of-type(n+8){display:none!important}
+    .logo-main-wrap{animation:logoFloat 5.5s ease-in-out infinite!important}
+    .logo-main-wrap::before{animation:logoGlassPulse 7s ease-in-out infinite!important}
+    .logo-main{animation:logoMicroTilt 8s ease-in-out infinite!important}
     *{scroll-behavior:auto!important}
   }
   @media (max-width: 390px){
@@ -991,9 +1008,16 @@
   // Lightweight React layer inspired by React Bits animated backgrounds.
   (() => {
     const root = document.getElementById('react-bits-bg');
-    if (root && window.React && window.ReactDOM && !ENCITA_MOBILE_LITE) {
+    if (root && window.React && window.ReactDOM) {
       const e = React.createElement;
       function AnimatedBackdrop(){
+        if (ENCITA_MOBILE_LITE) {
+          return e(React.Fragment, null,
+            e('div',{className:'rb-grid'}),
+            e('div',{className:'rb-orb one'}),
+            e('div',{className:'rb-orb two'})
+          );
+        }
         const hearts = Array.from({length:10},(_,i)=>e('span',{key:i,className:'float-heart',style:{'--left':`${5+i*9}%`,'--size':`${12+(i%4)*4}px`,'--dur':`${14+(i%5)*3}s`,'--delay':`${-i*2.3}s`,'--drift':`${(i%2?1:-1)*(24+i*3)}px`}},'♥'));
         return e(React.Fragment, null,
           e('div',{className:'rb-grid'}),
@@ -1013,7 +1037,17 @@
     if (root && window.React && window.ReactDOM) {
       const e = React.createElement;
       function HeroLogoMotion(){
-        if (ENCITA_MOBILE_LITE) return e('div',{className:'logo-motion-stage'},e('div',{className:'logo-main-wrap'},e('img',{src:'images/logo.png',alt:'Encita Lying-in Clinic logo',className:'logo-main'})));
+        if (ENCITA_MOBILE_LITE) {
+          const mobileSparks = Array.from({length:3},(_,i)=>e('i',{key:'ms'+i,className:'logo-spark',style:{'--s':`${4+i}px`,'--x':`${24+i*26}%`,'--y':`${20+(i%2)*48}%`,'--d':`${5.5+i*.8}s`,'--delay':`${-i*1.2}s`}}));
+          const mobileHearts = [['18%','28%','16px','6.8s','-1s'],['78%','70%','18px','7.4s','-3s']].map((v,i)=>e('span',{key:'mh'+i,className:'logo-heart',style:{'--x':v[0],'--y':v[1],'--fs':v[2],'--d':v[3],'--delay':v[4]}},'♥'));
+          return e('div',{className:'logo-motion-stage'},
+            e('div',{className:'logo-aurora'}),
+            e('div',{className:'logo-aura'}),
+            e('div',{className:'logo-orbit o1'}),
+            ...mobileSparks,...mobileHearts,
+            e('div',{className:'logo-main-wrap'},e('img',{src:'images/logo.png',alt:'Encita Lying-in Clinic logo',className:'logo-main'}))
+          );
+        }
         const sparks = Array.from({length:9},(_,i)=>e('i',{key:'s'+i,className:'logo-spark',style:{'--s':`${4+(i%3)*2}px`,'--x':`${10+(i*13)%82}%`,'--y':`${9+(i*19)%78}%`,'--d':`${3.4+(i%4)*.8}s`,'--delay':`${-i*.55}s`}}));
         const hearts = [
           ['14%','22%','22px','5.2s','-1.1s'],['82%','18%','16px','4.6s','-2.4s'],['10%','72%','14px','4.9s','-.8s'],['84%','70%','24px','5.8s','-3.1s']
