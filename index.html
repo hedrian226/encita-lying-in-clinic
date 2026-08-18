@@ -544,6 +544,62 @@
   @media(max-width:900px){.hero-react-logo{min-height:350px}.logo-main-wrap{width:min(52%,235px)}}
   @media(max-width:520px){.hero-logo-card{padding:9px;border-radius:22px}.hero-react-logo{min-height:300px;border-radius:16px}.logo-orbit.o1{width:250px;height:250px}.logo-orbit.o2{width:292px;height:292px}.logo-orbit.o3{width:205px;height:205px}.logo-main-wrap{width:175px}.hero-logo-copy{padding:20px 10px 8px}.hero-logo-copy .hero-care-trust{grid-template-columns:1fr}}
   @media(prefers-reduced-motion:reduce){.logo-aurora,.logo-orbit,.logo-aura,.logo-main-wrap,.logo-main-wrap::before,.logo-main,.logo-spark,.logo-heart{animation:none!important}}
+
+  /* ===== MOBILE PERFORMANCE + RESPONSIVE FIX ===== */
+  @media (max-width: 768px){
+    html,body{max-width:100%;overflow-x:hidden}
+    body{font-size:16px}
+    .wrap{width:100%;max-width:100%;padding-left:16px!important;padding-right:16px!important}
+    header{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(255,249,252,.98)!important}
+    .nav{padding:11px 14px!important;gap:8px}
+    .brand{min-width:0}.brand span{min-width:0}.brand-name{font-size:.94rem!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}.brand-sub{display:none}
+    .brand-mark{width:38px!important;height:38px!important}
+    .nav-cta{flex-shrink:0}.nav-cta .btn-primary{padding:10px 13px!important;font-size:.8rem!important}
+    .hero{padding:36px 0 26px!important;background:none!important}
+    .hero::before,.hero::after{display:none!important}
+    .hero-grid{grid-template-columns:1fr!important;gap:24px!important}
+    .hero h1{font-size:clamp(2.45rem,15vw,3.6rem)!important;line-height:.96!important;margin:12px 0 16px!important}
+    .lede{font-size:1rem!important;line-height:1.6}
+    .hero-actions{margin-top:20px!important}.hero-actions .btn{min-height:48px}
+    .trust-row{margin-top:22px!important;padding-top:18px!important;gap:10px!important;display:grid!important;grid-template-columns:1fr!important}
+    .trust-item{font-size:.84rem!important}
+    .nbb-banner{padding:14px 15px!important;border-radius:15px!important}
+    .hero-logo-card{padding:8px!important;border-radius:20px!important;box-shadow:0 16px 36px -28px rgba(130,34,79,.35)!important}
+    .hero-react-logo{min-height:230px!important;border-radius:14px!important}
+    .logo-main-wrap{width:150px!important}
+    .hero-logo-copy{padding:16px 8px 8px!important}
+    .hero-logo-copy h3{font-size:1.22rem!important;line-height:1.35!important}
+    .hero-logo-copy p{font-size:.9rem!important}
+    .hero-care-trust{grid-template-columns:1fr!important;gap:7px!important}
+    .hero-care-trust span{display:flex!important;justify-content:space-between!important;align-items:center!important;text-align:left!important;padding:9px 11px!important}
+    .hero-care-trust b{display:inline!important;margin:0!important;font-size:.94rem!important}
+    .service-marquee{overflow:hidden}.service-marquee-track{animation:none!important;transform:none!important;display:flex!important;overflow-x:auto!important;scrollbar-width:none;padding:10px 16px!important;gap:14px!important}.service-marquee-track::-webkit-scrollbar{display:none}.service-marquee-track span:nth-of-type(n+7),.service-marquee-track i:nth-of-type(n+7){display:none!important}
+    .section{padding:58px 0!important}.section-head{margin-bottom:30px!important}.section-head h2{font-size:clamp(1.8rem,9vw,2.35rem)!important}
+    .about-grid,.contact-grid{grid-template-columns:1fr!important;gap:28px!important}
+    .about-visual{border-radius:16px!important}.about-visual img{width:100%!important;height:auto!important;min-height:0!important;aspect-ratio:auto!important;object-fit:contain!important}
+    .journey-item{grid-template-columns:40px minmax(0,1fr)!important;gap:12px!important;padding:16px 0!important}.journey-marker{width:40px!important;height:40px!important}.journey-list::before{left:19px!important}.journey-card{padding:18px!important}
+    .philhealth{padding:28px 18px!important;border-radius:18px!important;gap:24px!important}.philhealth-card{padding:20px!important}
+    .stats-grid,.reviews-track,.news-grid{grid-template-columns:1fr!important;gap:14px!important}
+    .stat-card,.review-card,.news-card,.contact-card{padding:18px!important;border-radius:17px!important}
+    .review-summary{padding:16px!important;border-radius:17px!important;gap:12px!important}.review-score{align-items:flex-start!important}.review-score strong{font-size:1.7rem!important}.review-summary .btn{width:100%;justify-content:center}
+    .review-card:hover,.stat-card:hover,.journey-card:hover,.news-card:hover{transform:none!important}
+    .schedule-card{grid-template-columns:1fr!important;padding:18px!important;gap:14px!important}.schedule-card .btn{width:100%;justify-content:center}
+    .map-frame,.map-frame iframe{min-height:260px!important}
+    .footer-grid{display:grid!important;grid-template-columns:1fr!important}.footer-cols{gap:28px!important}.footer-bottom{display:block!important}.footer-bottom>*+*{margin-top:6px}
+    /* Expensive desktop-only effects disabled on phones */
+    #react-bits-bg,.cursor-aura,.float-heart,.click-spark{display:none!important}
+    .rb-spotlight::after,.border-glow::before{display:none!important}
+    .rb-spotlight,.review-card,.contact-card,.stat-card,.journey-card,.news-card{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+    .reveal{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+    .shiny-text,.hero-float-pill,.pulse-path,.logo-aurora,.logo-aura,.logo-orbit,.logo-spark,.logo-heart,.logo-main-wrap,.logo-main-wrap::before,.logo-main{animation:none!important}
+    .logo-orbit,.logo-spark,.logo-heart,.logo-aurora{display:none!important}
+    .logo-aura{display:block!important;opacity:.18!important;filter:blur(14px)!important}
+    *{scroll-behavior:auto!important}
+  }
+  @media (max-width: 390px){
+    .wrap{padding-left:13px!important;padding-right:13px!important}.brand-name{max-width:138px}.nav-cta .btn-primary{padding:9px 10px!important}.hero h1{font-size:2.55rem!important}.hero-react-logo{min-height:210px!important}.logo-main-wrap{width:135px!important}.review-text{font-size:.92rem!important}
+  }
+
 </style>
 </head>
 <body>
@@ -807,15 +863,15 @@
       </div>
       <div class="review-summary reveal rb-spotlight">
         <div class="review-score"><strong>100%</strong><div><div class="stars" aria-label="5 stars">★★★★★</div><span>recommend Encita · <span class="dynamic-review-count">14</span> reviews</span></div></div>
-        <a class="btn btn-ghost magnetic" href="https://www.facebook.com/encitalyinginclinic/reviews/" target="_blank" rel="noopener">See Facebook reviews</a>
+        <a class="btn btn-ghost magnetic" href="https://www.facebook.com/encitalyinginclinic/" target="_blank" rel="noopener">See Facebook reviews</a>
       </div>
       <div class="reviews-track" id="reviewsGrid">
-        <article class="review-card reveal rb-spotlight"><div class="review-head"><div class="review-avatar">MV</div><div><div class="review-name">Mheamme Villar Ludovice</div><div class="review-meta">20 Dec 2025</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“My baby is Encita baby, highly recommended… super babait ng mga OB and also mga midwife. Hands on sila parati at laging alert.”</p><div class="review-source"><span>Facebook recommendation</span><a href="https://www.facebook.com/encitalyinginclinic/reviews/" target="_blank" rel="noopener">View source</a></div></article>
-        <article class="review-card reveal rb-spotlight"><div class="review-head"><div class="review-avatar">MR</div><div><div class="review-name">Mery Rose Catandijan</div><div class="review-meta">19 Dec 2025</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“As a first time mom, sobrang hands on ng OB ko… To all staff na super friendly and maasikaso at nice sa lahat ng patient, mafe-feel mo na di ka papabayaan.”</p><div class="review-source"><span>Facebook recommendation</span><a href="https://www.facebook.com/encitalyinginclinic/reviews/" target="_blank" rel="noopener">View source</a></div></article>
-        <article class="review-card reveal rb-spotlight"><div class="review-head"><div class="review-avatar">DA</div><div><div class="review-name">Donalyn Ayon Maco</div><div class="review-meta">7 Dec 2025</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“Highly recommended based on my experience… sobrang approachable po ang mga midwives and most specially to Doctora Ella Ferrer.”</p><div class="review-source"><span>Facebook recommendation</span><a href="https://www.facebook.com/encitalyinginclinic/reviews/" target="_blank" rel="noopener">View source</a></div></article>
-        <article class="review-card reveal rb-spotlight"><div class="review-head"><div class="review-avatar">RC</div><div><div class="review-name">Richelle Castro</div><div class="review-meta">3 Dec 2025</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“4kg via normal delivery… sobrang gaan lang po manganak. Midwife at doctor, lahat sila matyaga talagang aalagaan ka at imomotivate na kering-keri mo ’yan.”</p><div class="review-source"><span>Facebook recommendation</span><a href="https://www.facebook.com/encitalyinginclinic/reviews/" target="_blank" rel="noopener">View source</a></div></article>
-        <article class="review-card reveal rb-spotlight"><div class="review-head"><div class="review-avatar">PB</div><div><div class="review-name">Patrizsa Jane Braga</div><div class="review-meta">29 Nov 2025</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“Super alaga talaga ni Sir Alvin at Dra. Ella… maasikaso at accommodating talaga sila kahit ano pang condition mo.”</p><div class="review-source"><span>Facebook recommendation</span><a href="https://www.facebook.com/encitalyinginclinic/reviews/" target="_blank" rel="noopener">View source</a></div></article>
-        <article class="review-card reveal rb-spotlight"><div class="review-head"><div class="review-avatar">ML</div><div><div class="review-name">Maria Lalaine Conse Dolfo</div><div class="review-meta">29 Nov 2025</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“Highly recommended po ang Encita Lying-In Clinic. Super maasikaso po lahat, talagang igu-guide ka din po nila sa mga dapat gawin sa oras ng panganganak.”</p><div class="review-source"><span>Facebook recommendation</span><a href="https://www.facebook.com/encitalyinginclinic/reviews/" target="_blank" rel="noopener">View source</a></div></article>
+        <article class="review-card reveal rb-spotlight"><div class="review-head"><div class="review-avatar">MV</div><div><div class="review-name">Mheamme Villar Ludovice</div><div class="review-meta">20 Dec 2025</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“My baby is Encita baby, highly recommended… super babait ng mga OB and also mga midwife. Hands on sila parati at laging alert.”</p><div class="review-source"><span>Facebook recommendation</span><a href="https://www.facebook.com/encitalyinginclinic/" target="_blank" rel="noopener">View source</a></div></article>
+        <article class="review-card reveal rb-spotlight"><div class="review-head"><div class="review-avatar">MR</div><div><div class="review-name">Mery Rose Catandijan</div><div class="review-meta">19 Dec 2025</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“As a first time mom, sobrang hands on ng OB ko… To all staff na super friendly and maasikaso at nice sa lahat ng patient, mafe-feel mo na di ka papabayaan.”</p><div class="review-source"><span>Facebook recommendation</span><a href="https://www.facebook.com/encitalyinginclinic/" target="_blank" rel="noopener">View source</a></div></article>
+        <article class="review-card reveal rb-spotlight"><div class="review-head"><div class="review-avatar">DA</div><div><div class="review-name">Donalyn Ayon Maco</div><div class="review-meta">7 Dec 2025</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“Highly recommended based on my experience… sobrang approachable po ang mga midwives and most specially to Doctora Ella Ferrer.”</p><div class="review-source"><span>Facebook recommendation</span><a href="https://www.facebook.com/encitalyinginclinic/" target="_blank" rel="noopener">View source</a></div></article>
+        <article class="review-card reveal rb-spotlight"><div class="review-head"><div class="review-avatar">RC</div><div><div class="review-name">Richelle Castro</div><div class="review-meta">3 Dec 2025</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“4kg via normal delivery… sobrang gaan lang po manganak. Midwife at doctor, lahat sila matyaga talagang aalagaan ka at imomotivate na kering-keri mo ’yan.”</p><div class="review-source"><span>Facebook recommendation</span><a href="https://www.facebook.com/encitalyinginclinic/" target="_blank" rel="noopener">View source</a></div></article>
+        <article class="review-card reveal rb-spotlight"><div class="review-head"><div class="review-avatar">PB</div><div><div class="review-name">Patrizsa Jane Braga</div><div class="review-meta">29 Nov 2025</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“Super alaga talaga ni Sir Alvin at Dra. Ella… maasikaso at accommodating talaga sila kahit ano pang condition mo.”</p><div class="review-source"><span>Facebook recommendation</span><a href="https://www.facebook.com/encitalyinginclinic/" target="_blank" rel="noopener">View source</a></div></article>
+        <article class="review-card reveal rb-spotlight"><div class="review-head"><div class="review-avatar">ML</div><div><div class="review-name">Maria Lalaine Conse Dolfo</div><div class="review-meta">29 Nov 2025</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“Highly recommended po ang Encita Lying-In Clinic. Super maasikaso po lahat, talagang igu-guide ka din po nila sa mga dapat gawin sa oras ng panganganak.”</p><div class="review-source"><span>Facebook recommendation</span><a href="https://www.facebook.com/encitalyinginclinic/" target="_blank" rel="noopener">View source</a></div></article>
       </div>
     </div>
   </section>
@@ -931,10 +987,11 @@
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script>
+  const ENCITA_MOBILE_LITE = window.matchMedia('(max-width: 768px), (pointer: coarse)').matches;
   // Lightweight React layer inspired by React Bits animated backgrounds.
   (() => {
     const root = document.getElementById('react-bits-bg');
-    if (root && window.React && window.ReactDOM) {
+    if (root && window.React && window.ReactDOM && !ENCITA_MOBILE_LITE) {
       const e = React.createElement;
       function AnimatedBackdrop(){
         const hearts = Array.from({length:10},(_,i)=>e('span',{key:i,className:'float-heart',style:{'--left':`${5+i*9}%`,'--size':`${12+(i%4)*4}px`,'--dur':`${14+(i%5)*3}s`,'--delay':`${-i*2.3}s`,'--drift':`${(i%2?1:-1)*(24+i*3)}px`}},'♥'));
@@ -956,6 +1013,7 @@
     if (root && window.React && window.ReactDOM) {
       const e = React.createElement;
       function HeroLogoMotion(){
+        if (ENCITA_MOBILE_LITE) return e('div',{className:'logo-motion-stage'},e('div',{className:'logo-main-wrap'},e('img',{src:'images/logo.png',alt:'Encita Lying-in Clinic logo',className:'logo-main'})));
         const sparks = Array.from({length:9},(_,i)=>e('i',{key:'s'+i,className:'logo-spark',style:{'--s':`${4+(i%3)*2}px`,'--x':`${10+(i*13)%82}%`,'--y':`${9+(i*19)%78}%`,'--d':`${3.4+(i%4)*.8}s`,'--delay':`${-i*.55}s`}}));
         const hearts = [
           ['14%','22%','22px','5.2s','-1.1s'],['82%','18%','16px','4.6s','-2.4s'],['10%','72%','14px','4.9s','-.8s'],['84%','70%','24px','5.8s','-3.1s']
@@ -989,7 +1047,7 @@
   } else revealEls.forEach(el => el.classList.add('in'));
 
   // Spotlight-card interaction.
-  document.querySelectorAll('.rb-spotlight').forEach(card => {
+  if (!ENCITA_MOBILE_LITE) document.querySelectorAll('.rb-spotlight').forEach(card => {
     card.addEventListener('pointermove', (ev) => {
       const r = card.getBoundingClientRect();
       card.style.setProperty('--mx', `${ev.clientX-r.left}px`);
@@ -998,7 +1056,7 @@
   });
 
   // Gentle 3D tilt on the hero clinic card.
-  document.querySelectorAll('.rb-tilt').forEach(card => {
+  if (!ENCITA_MOBILE_LITE) document.querySelectorAll('.rb-tilt').forEach(card => {
     card.addEventListener('pointermove', (ev) => {
       if (matchMedia('(pointer:coarse)').matches) return;
       const r = card.getBoundingClientRect();
@@ -1010,7 +1068,7 @@
   });
 
   // Magnetic-button effect, subtle enough for a healthcare site.
-  document.querySelectorAll('.magnetic').forEach(btn => {
+  if (!ENCITA_MOBILE_LITE) document.querySelectorAll('.magnetic').forEach(btn => {
     btn.addEventListener('pointermove', ev => {
       if (matchMedia('(pointer:coarse)').matches) return;
       const r=btn.getBoundingClientRect();
@@ -1034,7 +1092,7 @@
     addEventListener('pointermove', e => { aura.style.left=e.clientX+'px'; aura.style.top=e.clientY+'px'; aura.style.opacity='1'; }, {passive:true});
     addEventListener('pointerleave',()=>aura.style.opacity='0');
   }
-  addEventListener('pointerdown', e => {
+  if (!ENCITA_MOBILE_LITE) addEventListener('pointerdown', e => {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     for(let i=0;i<6;i++){
       const s=document.createElement('span'); s.className='click-spark';
@@ -1047,6 +1105,7 @@
 
   // Animated counters, inspired by React Bits Count Up.
   const counters=document.querySelectorAll('.count-up');
+  if (ENCITA_MOBILE_LITE) counters.forEach(el=>{const target=Number(el.dataset.target||0),suffix=el.dataset.suffix||'';el.textContent=(target>=1000?(target/1000).toFixed(1).replace('.0','')+'K':target)+suffix;});
   const counterIO=new IntersectionObserver(entries=>entries.forEach(entry=>{
     if(!entry.isIntersecting) return;
     const el=entry.target, target=Number(el.dataset.target||0), suffix=el.dataset.suffix||'';

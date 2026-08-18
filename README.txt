@@ -24,3 +24,9 @@ The public site contains designed fallback review cards based on the screenshots
 
 REVIEW COUNTER
 The public website starts from the current Facebook baseline of 14 reviews. Every published review added in /admin/ is automatically added to that count everywhere on the website. If the Facebook baseline changes later, edit BASE_FACEBOOK_REVIEW_COUNT in index.html.
+
+MOBILE PERFORMANCE UPDATE
+- Mobile/tablet uses a lighter motion profile automatically.
+- Desktop React-inspired motion remains enabled.
+- Cursor aura, click sparks, rotating logo rings, floating hearts, blur-heavy effects and marquee animation are disabled on phones.
+- Facebook review buttons now open the exact Encita Facebook page: https://www.facebook.com/encitalyinginclinic/
