@@ -30,3 +30,8 @@ MOBILE PERFORMANCE UPDATE
 - Desktop React-inspired motion remains enabled.
 - Cursor aura, click sparks, rotating logo rings, floating hearts, blur-heavy effects and marquee animation are disabled on phones.
 - Facebook review buttons now open the exact Encita Facebook page: https://www.facebook.com/encitalyinginclinic/
+
+V10 FIX:
+- Supabase/admin-added reviews are now inserted in addition to the built-in featured Facebook reviews.
+- Existing displayed reviews no longer disappear after adding/publishing a review.
+- Dynamic review count still increases for each published Supabase review.

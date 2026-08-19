@@ -1226,7 +1226,13 @@
 
       if(reviews.length){
         const grid=document.getElementById('reviewsGrid');
-        grid.innerHTML=reviews.map(r=>`<article class="review-card reveal in rb-spotlight"><div class="review-head"><div class="review-avatar">${esc(initials(r.reviewer_name))}</div><div><div class="review-name">${esc(r.reviewer_name)}</div><div class="review-meta">${esc(fmtDate(r.review_date))}</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“${esc(r.review_text)}”</p><div class="review-source"><span>${esc(r.source_label||'Facebook recommendation')}</span>${r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener">View source</a>`:''}</div></article>`).join('');
+        if(grid){
+          // Keep the original featured Facebook reviews already designed in the HTML.
+          // Supabase reviews are ADDITIONAL cards, not a replacement for them.
+          grid.querySelectorAll('[data-admin-review="true"]').forEach(el=>el.remove());
+          const adminReviewsHTML=reviews.map(r=>`<article class="review-card reveal in rb-spotlight" data-admin-review="true"><div class="review-head"><div class="review-avatar">${esc(initials(r.reviewer_name))}</div><div><div class="review-name">${esc(r.reviewer_name)}</div><div class="review-meta">${esc(fmtDate(r.review_date))}</div><span class="recommended-pill">♥ Recommends Encita</span></div></div><p class="review-text">“${esc(r.review_text)}”</p><div class="review-source"><span>${esc(r.source_label||'Facebook recommendation')}</span>${r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener">View source</a>`:''}</div></article>`).join('');
+          grid.insertAdjacentHTML('afterbegin',adminReviewsHTML);
+        }
       }
     }
     if(!nErr&&news&&news.length){
