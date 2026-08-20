@@ -1,3 +1,4 @@
+-- LEGACY INITIAL SETUP. If you already ran this before V11, DO NOT RUN IT AGAIN. Run supabase-v11-migration.sql instead.
 -- Encita Lying-in Clinic CMS
 -- Run this once in Supabase > SQL Editor.
 
