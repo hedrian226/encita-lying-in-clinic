@@ -687,11 +687,10 @@
 
   /* ---------- V20 DYNAMIC SERVICES GALLERY ---------- */
   .cms-services-section{background:linear-gradient(180deg,#fffafd 0%,#fff3f8 100%);overflow:hidden}
-  .cms-services-head{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:36px}
-  .cms-services-head .section-head{margin-bottom:0}
-  .cms-services-note{max-width:360px;color:var(--ink-soft);font-size:.94rem}
+  .cms-services-head{display:block;margin-bottom:36px}
+  .cms-services-head .section-head{margin-bottom:0;max-width:720px}
   .cms-services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
-  .cms-service-card{background:#fff;border:1px solid rgba(213,66,127,.16);border-radius:24px;overflow:hidden;box-shadow:0 18px 42px -30px rgba(130,30,80,.42);display:flex;flex-direction:column;min-width:0;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+  .cms-service-card{background:#fff;border:1px solid rgba(213,66,127,.16);border-radius:24px;overflow:hidden;box-shadow:0 18px 42px -30px rgba(130,30,80,.42);display:flex;flex-direction:column;min-width:0;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;position:relative}
   .cms-service-card:hover{transform:translateY(-5px);box-shadow:0 24px 54px -30px rgba(130,30,80,.5);border-color:rgba(213,66,127,.3)}
   .cms-service-media{aspect-ratio:16/10;background:linear-gradient(145deg,#ffe7f1,#fff7fb);position:relative;overflow:hidden}
   .cms-service-media img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
@@ -702,13 +701,33 @@
   .cms-service-body{padding:22px;display:flex;flex-direction:column;flex:1}
   .cms-service-body h3{font-size:1.34rem;margin:0 0 10px;color:#7f194b}
   .cms-service-body p{color:var(--ink-soft);font-size:.96rem;line-height:1.65;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+  .cms-service-view{margin-top:14px;align-self:flex-start;border:0;background:transparent;color:#a72d65;font-weight:800;font-family:var(--sans);font-size:.88rem;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+  .cms-service-view:hover{color:#7f194b}
+  .cms-service-media,.cms-service-body h3{cursor:pointer}
   .cms-service-meta{margin-top:auto;padding-top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid #f2dce6}
   .cms-service-availability{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-weight:700;color:#8b3159}
   .cms-service-availability svg{width:16px;height:16px;flex:0 0 auto}
   .cms-service-book{font-size:.84rem;padding:9px 14px}
   .cms-services-empty{grid-column:1/-1;padding:28px;text-align:center;border:1px dashed #e7b8cc;border-radius:20px;color:var(--ink-soft);background:rgba(255,255,255,.6)}
-  @media(max-width:900px){.cms-services-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cms-services-head{align-items:flex-start;flex-direction:column}.cms-services-note{max-width:none}}
-  @media(max-width:600px){.cms-services-grid{grid-template-columns:1fr;gap:18px}.cms-service-card:hover{transform:none}.cms-service-media{aspect-ratio:16/9}.cms-service-body{padding:18px}.cms-service-meta{align-items:flex-start;flex-direction:column}.cms-service-book{width:100%;justify-content:center}.cms-services-head{margin-bottom:24px}}
+  @media(max-width:1100px){.cms-services-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:720px){.cms-services-section .wrap{padding-left:18px;padding-right:18px}.cms-services-grid{grid-template-columns:1fr;gap:18px}.cms-service-card:hover{transform:none}.cms-service-media{aspect-ratio:16/9}.cms-service-body{padding:18px}.cms-service-meta{align-items:stretch;flex-direction:column}.cms-service-book{width:100%;justify-content:center;min-height:46px}.cms-service-view{font-size:.92rem;padding:4px 0}.cms-services-head{margin-bottom:24px}}
+  @media(max-width:420px){.cms-services-section .wrap{padding-left:14px;padding-right:14px}.cms-service-card{border-radius:20px}.cms-service-body h3{font-size:1.2rem}.cms-service-body p{font-size:.93rem}.cms-service-category{left:12px;bottom:12px;max-width:calc(100% - 24px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+
+  /* V21 service details modal */
+  .service-modal{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(39,15,28,.56);backdrop-filter:blur(8px)}
+  .service-modal.open{display:flex}
+  .service-modal-dialog{width:min(920px,100%);max-height:min(88vh,820px);overflow:auto;background:#fff;border-radius:28px;box-shadow:0 30px 90px rgba(60,10,35,.28);position:relative;border:1px solid rgba(213,66,127,.16)}
+  .service-modal-close{position:absolute;right:16px;top:16px;z-index:2;width:42px;height:42px;border-radius:999px;border:1px solid #efd1de;background:rgba(255,255,255,.94);color:#7f194b;font-size:24px;line-height:1;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 22px rgba(90,20,55,.12)}
+  .service-modal-media{width:100%;background:#fff3f8;max-height:430px;overflow:hidden;border-radius:28px 28px 0 0}
+  .service-modal-media img{width:100%;height:auto;max-height:430px;object-fit:contain;margin:auto}
+  .service-modal-content{padding:28px 30px 32px}
+  .service-modal-category{display:inline-flex;padding:7px 12px;border-radius:999px;background:#fde7f0;color:#9c2d60;font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+  .service-modal-content h2{margin:12px 0 12px;color:#7f194b;font-size:clamp(1.7rem,4vw,2.5rem)}
+  .service-modal-description{color:var(--ink-soft);font-size:1rem;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere}
+  .service-modal-footer{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:24px;padding-top:20px;border-top:1px solid #f0d9e4}
+  .service-modal-availability{font-weight:800;color:#8b3159;display:flex;align-items:center;gap:8px}
+  body.modal-open{overflow:hidden}
+  @media(max-width:700px){.service-modal{padding:10px;align-items:flex-end}.service-modal-dialog{max-height:92vh;border-radius:22px 22px 0 0}.service-modal-media{border-radius:22px 22px 0 0;max-height:36vh}.service-modal-media img{max-height:36vh}.service-modal-content{padding:22px 18px 24px}.service-modal-footer{align-items:stretch;flex-direction:column}.service-modal-footer .btn{width:100%;justify-content:center}.service-modal-close{right:12px;top:12px}}
 
 </style>
 </head>
@@ -818,7 +837,7 @@
           <p>We're PhilHealth-partnered and DOH-accredited, with our own birthing home, ultrasound, and laboratory on-site — plus a visiting pediatrician and general OPD services, so growing families in General Trias have one trusted place to turn to, before, during, and after delivery.</p>
         </div>
         <div class="badge-row">
-          <span class="badge">OB-GYN &amp; Midwife-handled</span>
+          <span class="badge">OB-GYN &amp; Midwife-led</span>
           <span class="badge">PhilHealth &amp; DOH accredited</span>
           <span class="badge">Birthing Home</span>
           <span class="badge">On-site Ultrasound</span>
@@ -930,13 +949,28 @@
           <h2>More care, all in one place</h2>
           <p class="lede">Browse additional clinic services published by the Encita team. Availability may vary, so you can request an appointment or contact us to confirm.</p>
         </div>
-        <p class="cms-services-note">The four care-journey steps above remain permanent. This section is managed separately from the Admin CMS.</p>
       </div>
       <div class="cms-services-grid" id="cmsServicesGrid">
         <div class="cms-services-empty">Additional clinic services will appear here when published.</div>
       </div>
     </div>
   </section>
+
+  <div class="service-modal" id="serviceModal" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle" aria-hidden="true">
+    <div class="service-modal-dialog">
+      <button class="service-modal-close" id="serviceModalClose" type="button" aria-label="Close service details">×</button>
+      <div class="service-modal-media" id="serviceModalMedia"></div>
+      <div class="service-modal-content">
+        <span class="service-modal-category" id="serviceModalCategory"></span>
+        <h2 id="serviceModalTitle"></h2>
+        <div class="service-modal-description" id="serviceModalDescription"></div>
+        <div class="service-modal-footer">
+          <div class="service-modal-availability" id="serviceModalAvailability"></div>
+          <a class="btn btn-rose" id="serviceModalBook" href="#appointment">Request appointment</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- PHILHEALTH -->
   <section class="section" id="philhealth">
@@ -1406,9 +1440,15 @@
        const description=esc(s.description||'Contact Encita for more information about this service.');
        const availability=esc(s.availability||'Contact clinic to confirm');
        const image=s.image_url?`<img src="${esc(s.image_url)}" alt="${esc(name)}" loading="lazy" decoding="async">`:`<div class="cms-service-placeholder" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 11c0 5.65-7 10-7 10Z"/><path d="M9 11h6M12 8v6"/></svg></div>`;
-       return `<article class="cms-service-card reveal in" data-service-id="${s.id}"><div class="cms-service-media">${image}<span class="cms-service-category">${category}</span></div><div class="cms-service-body"><h3>${esc(name)}</h3><p>${description}</p><div class="cms-service-meta"><span class="cms-service-availability"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${availability}</span><a class="btn btn-rose cms-service-book" href="#appointment" data-book-service="${esc(name)}">Request appointment</a></div></div></article>`;
+       return `<article class="cms-service-card reveal in" data-service-id="${s.id}" data-service-open="${s.id}"><div class="cms-service-media" data-service-open="${s.id}">${image}<span class="cms-service-category">${category}</span></div><div class="cms-service-body"><h3 data-service-open="${s.id}">${esc(name)}</h3><p>${description}</p><button class="cms-service-view" type="button" data-service-open="${s.id}">View full details</button><div class="cms-service-meta"><span class="cms-service-availability"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${availability}</span><a class="btn btn-rose cms-service-book" href="#appointment" data-book-service="${esc(name)}">Request appointment</a></div></div></article>`;
      }).join('');
      serviceGrid.querySelectorAll('[data-book-service]').forEach(btn=>btn.addEventListener('click',()=>{const sel=document.getElementById('apptService');if(sel){const target=btn.dataset.bookService;const opt=[...sel.options].find(o=>o.textContent.trim().toLowerCase()===target.trim().toLowerCase());if(opt)sel.value=opt.value}}));
+     const modal=document.getElementById('serviceModal'), modalClose=document.getElementById('serviceModalClose');
+     const openService=(id)=>{const svc=services.find(x=>String(x.id)===String(id));if(!svc||!modal)return;const media=document.getElementById('serviceModalMedia');media.innerHTML=svc.image_url?`<img src="${esc(svc.image_url)}" alt="${esc(svc.name||'Encita service')}">`:'';document.getElementById('serviceModalCategory').textContent=svc.category||'Clinic service';document.getElementById('serviceModalTitle').textContent=svc.name||'Clinic service';document.getElementById('serviceModalDescription').textContent=svc.description||'Contact Encita for more information about this service.';document.getElementById('serviceModalAvailability').textContent=svc.availability?'Availability: '+svc.availability:'Contact us to confirm availability';const book=document.getElementById('serviceModalBook');book.dataset.bookService=svc.name||'';modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');modalClose?.focus()};
+     const closeService=()=>{if(!modal)return;modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.classList.remove('modal-open')};
+     serviceGrid.addEventListener('click',e=>{const opener=e.target.closest('[data-service-open]');if(opener&&!e.target.closest('[data-book-service]'))openService(opener.dataset.serviceOpen)});
+     modalClose?.addEventListener('click',closeService);modal?.addEventListener('click',e=>{if(e.target===modal)closeService()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal?.classList.contains('open'))closeService()});
+     document.getElementById('serviceModalBook')?.addEventListener('click',function(){const sel=document.getElementById('apptService');const target=this.dataset.bookService||'';if(sel){const opt=[...sel.options].find(o=>o.textContent.trim().toLowerCase()===target.trim().toLowerCase());if(opt)sel.value=opt.value}closeService()});
      services.forEach(s=>addSearch('Service',String(s.name||'Clinic service'),(s.description||'')+' '+(s.category||'')+' '+(s.availability||''),'#our-services'));
    }
  }
