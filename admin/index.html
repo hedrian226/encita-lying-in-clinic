@@ -244,6 +244,64 @@ body{overflow-x:hidden;}
 @media(max-width:1100px){#dashboard .cards{grid-template-columns:repeat(2,minmax(0,1fr))}#dashboard .dashboard-main-grid{grid-template-columns:1fr}}
 @media(max-width:800px){#dashboard .dashboard-head{align-items:flex-start;flex-direction:column}#dashboard .dashboard-actions{justify-content:flex-start}#dashboard .dashboard-main-grid{grid-template-columns:1fr}#dashboard .dash-appointments .list,#dashboard .dash-activity .list{max-height:none}}
 @media(max-width:560px){#dashboard .cards{grid-template-columns:1fr}#dashboard .metric{min-height:98px;padding:16px 16px 16px 68px}#dashboard .metric:before{left:16px;top:50%;transform:translateY(-50%)}#dashboard .metric strong{font-size:1.65rem}#dashboard .dashboard-actions{display:grid;grid-template-columns:1fr 1fr;width:100%}#dashboard .quick-btn{width:100%}.cms-shortcuts{grid-template-columns:1fr!important}.overview-row{grid-template-columns:1fr 1fr!important}}
+
+/* ===== V17 RESPONSIVE ADMIN HARDENING =====
+   Prevents the CMS from being squeezed/broken at laptop zoom, tablets, and mobile. */
+.main,.section,.grid2,.panel,.form,.row{min-width:0}
+.form label{min-width:0;overflow-wrap:anywhere}
+.form input,.form select,.form textarea{min-width:0;max-width:100%}
+input[type="date"],input[type="time"],input[type="datetime-local"]{max-width:100%;min-width:0}
+
+/* Collapse editor/list pairs earlier so 125%/150% browser zoom cannot squeeze forms. */
+@media (max-width:1320px){
+  .grid2,#dashboard .grid2{grid-template-columns:1fr!important}
+  .main{max-width:none!important}
+}
+
+/* At laptop-zoom/tablet widths switch the tall sidebar into a compact top CMS bar. */
+@media (max-width:1280px){
+  .shell{display:block!important;min-height:100dvh!important}
+  .side{position:sticky!important;top:0!important;z-index:60!important;width:100%!important;height:auto!important;min-height:0!important;overflow:visible!important;padding:10px 14px!important;background:linear-gradient(100deg,#182335 0%,#203047 58%,#263d34 100%)!important;box-shadow:0 8px 28px rgba(20,31,45,.16)!important;border-right:0!important}
+  .brand{display:flex!important;align-items:center!important;padding:0 2px 8px!important;margin:0 0 7px!important;border-bottom:1px solid rgba(255,255,255,.10)!important}
+  .brand img{width:38px!important;height:38px!important;border-radius:11px!important}
+  .brand small{display:none!important}
+  .nav{display:flex!important;gap:7px!important;overflow-x:auto!important;overflow-y:hidden!important;padding:0 0 3px!important;scrollbar-width:none!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior-inline:contain!important}
+  .nav::-webkit-scrollbar{display:none!important}
+  .nav button{width:auto!important;min-width:max-content!important;margin:0!important;padding:9px 12px!important;min-height:40px!important;border:1px solid rgba(255,255,255,.07)!important;border-radius:10px!important}
+  .nav button.active{box-shadow:inset 0 -3px 0 #ef6aa1!important;background:rgba(239,106,161,.16)!important}
+  .nav button.active:after{display:none!important}
+  .main{padding:18px 16px 78px!important;width:100%!important;max-width:none!important}
+  .top{position:relative!important;top:auto!important;margin-bottom:16px!important}
+  .grid2,#dashboard .grid2{grid-template-columns:1fr!important;gap:14px!important}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .list,#dashAppointments,#activityList{max-height:none!important}
+}
+
+@media (max-width:760px){
+  .main{padding:14px 11px 88px!important}
+  .top{padding:14px!important}
+  .top h1{font-size:1.5rem!important}
+  .panel,.metric{padding:15px!important;border-radius:16px!important}
+  .row{grid-template-columns:1fr!important}
+  .form{gap:11px!important}
+  .form input,.form select,.form textarea{font-size:16px!important;width:100%!important}
+  .item{flex-direction:column!important}
+  .actions,.appt-actions{width:100%!important;flex-wrap:wrap!important;justify-content:flex-start!important}
+  .actions .btn,.appt-actions .btn{flex:1 1 120px!important}
+  #dashboard .dashboard-head{flex-direction:column!important;align-items:flex-start!important}
+  #dashboard .dashboard-actions{justify-content:flex-start!important;width:100%!important}
+}
+
+@media (max-width:520px){
+  .cards,#dashboard .cards{grid-template-columns:1fr!important}
+  .top{flex-direction:column!important;align-items:stretch!important}
+  .top #signOut{width:100%!important}
+  .panel{overflow:visible!important}
+  .form label:has(> input[type="checkbox"]){width:100%!important}
+  #dashboard .dashboard-actions{display:grid!important;grid-template-columns:1fr!important}
+  #dashboard .quick-btn{width:100%!important}
+}
+
 </style></head><body>
 <div id="login" class="login"><h1>Encita Clinic CMS</h1><p>Sign in with an approved clinic administrator account.</p><div class="form"><label>Email<input id="email" type="email"></label><label>Password<input id="password" type="password"></label><button id="signIn" class="btn pink">Sign in</button><div id="loginStatus" class="status"></div></div></div>
 <div id="app" class="shell hidden"><aside class="side"><div class="brand"><img src="../images/logo.png"><div><b>Encita Clinic</b><small style="display:block;opacity:.7">Content Manager</small></div></div><div class="nav" id="nav"><button data-tab="dashboard" class="active">Dashboard</button><button data-tab="appointments">Appointments</button><button data-tab="schedule">Schedule</button><button data-tab="reviews">Reviews</button><button data-tab="news">News</button><button data-tab="announcements">Announcements</button><button data-tab="team">Team</button><button data-tab="gallery">Gallery</button><button data-tab="faq">FAQ</button><button data-tab="services">Services</button><button data-tab="analytics">Analytics</button><button data-tab="trash">Trash</button></div></aside><main class="main"><div class="top"><div><h1 id="pageTitle" style="margin:0">Dashboard</h1><div id="who" style="color:var(--muted);font-size:.85rem"></div></div><button id="signOut" class="btn gray">Sign out</button></div>
