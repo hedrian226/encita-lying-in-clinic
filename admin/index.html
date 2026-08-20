@@ -52,10 +52,227 @@ body{background:linear-gradient(135deg,#fbf8f5 0%,#fff7fa 100%);color:#252521}
 @media(max-width:800px){.side{background:linear-gradient(135deg,#21392c,#2f523d)}.top{position:relative;top:auto;padding:15px}.appt-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.appt-actions .btn{width:100%}}
 @media(max-width:560px){.main{padding:12px 10px 88px}.panel,.metric{border-radius:16px}.top{border-radius:15px}.appt-meta{display:grid;grid-template-columns:1fr}.appt-actions{grid-template-columns:1fr 1fr}.appt-actions .btn.danger{grid-column:1/-1}}
 
+
+/* ===== V14 ADMIN LAYOUT STABILITY FIX ===== */
+html,body{min-height:100%;}
+body{overflow-x:hidden;}
+.shell{display:grid!important;grid-template-columns:270px minmax(0,1fr)!important;min-height:100dvh;align-items:stretch;}
+.side{position:sticky!important;top:0!important;height:100dvh!important;min-height:100dvh!important;overflow-y:auto!important;overflow-x:hidden!important;align-self:start;background:linear-gradient(180deg,#21392c 0%,#2c4a38 54%,#193024 100%)!important;}
+.side::-webkit-scrollbar{width:6px}.side::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:999px}
+.nav{display:grid!important;overflow:visible!important;gap:5px!important;}
+.nav button{width:100%!important;min-width:0!important;}
+.main{min-width:0;width:100%;max-width:none!important;}
+.grid2{align-items:start!important;}
+.grid2>.panel{height:auto!important;min-height:0!important;align-self:start!important;}
+.list{max-height:560px;overflow:auto;overscroll-behavior:contain;}
+#dashAppointments,#activityList{max-height:430px;}
+#dashboard .grid2{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);}
+.panel:has(#dashAppointments),.panel:has(#activityList){min-height:0!important;}
+.section{min-width:0;}
+.item{min-width:0;}
+
+/* Proper tablet sidebar: prevents the old <=900px rules from creating a half desktop/half mobile layout. */
+@media (min-width:801px) and (max-width:1100px){
+  .shell{grid-template-columns:220px minmax(0,1fr)!important;}
+  .side{position:sticky!important;top:0!important;height:100dvh!important;min-height:100dvh!important;padding:18px 14px!important;}
+  .nav{display:grid!important;overflow:visible!important;}
+  .nav button{width:100%!important;min-width:0!important;padding:11px 12px!important;}
+  .main{padding:20px!important;}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  .grid2,#dashboard .grid2{grid-template-columns:1fr!important;}
+  .list{max-height:520px;}
+}
+
+/* Mobile admin: intentionally switches to a compact top navigation. */
+@media (max-width:800px){
+  .shell{display:block!important;min-height:100dvh;}
+  .side{position:sticky!important;top:0!important;z-index:50;height:auto!important;min-height:0!important;overflow:visible!important;padding:10px 12px!important;background:linear-gradient(135deg,#21392c,#2f523d)!important;box-shadow:0 8px 26px rgba(23,45,32,.18)!important;}
+  .brand{padding:0 2px 8px!important;margin:0 0 7px!important;border-bottom:1px solid rgba(255,255,255,.1)!important;}
+  .brand img{width:36px!important;height:36px!important;border-radius:11px!important;}
+  .brand small{display:none!important;}
+  .nav{display:flex!important;gap:6px!important;overflow-x:auto!important;overflow-y:hidden!important;padding:0 0 3px!important;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .nav::-webkit-scrollbar{display:none;}
+  .nav button{width:auto!important;min-width:max-content!important;padding:9px 12px!important;margin:0!important;border:1px solid rgba(255,255,255,.08)!important;}
+  .nav button.active:after{display:none!important;}
+  .main{padding:14px 12px 84px!important;}
+  .top{position:relative!important;top:auto!important;padding:14px!important;margin-bottom:14px!important;}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;}
+  .grid2,#dashboard .grid2{grid-template-columns:1fr!important;gap:12px!important;}
+  .list,#dashAppointments,#activityList{max-height:none!important;overflow:visible!important;}
+  .item{flex-direction:column!important;}
+  .actions,.appt-actions{width:100%!important;justify-content:flex-start!important;flex-wrap:wrap!important;}
+}
+
+@media (max-width:520px){
+  .cards{grid-template-columns:1fr!important;}
+  .row{grid-template-columns:1fr!important;}
+  .main{padding-left:10px!important;padding-right:10px!important;}
+  .metric,.panel{border-radius:16px!important;padding:14px!important;}
+}
+
+
+/* ===== V15 PROFESSIONAL TOGGLE / CHECKBOX FIX ===== */
+/* The generic .form input rule previously forced checkboxes to 100% width.
+   These controls are now compact, touch-friendly switches. */
+.form label:has(> input[type="checkbox"]){
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  min-height:54px;
+  padding:11px 14px;
+  border:1px solid #eadfe3;
+  border-radius:14px;
+  background:linear-gradient(180deg,#fff,#fffafb);
+  color:#3a3034;
+  font-size:.84rem;
+  font-weight:800;
+  cursor:pointer;
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
+  user-select:none;
+}
+.form label:has(> input[type="checkbox"]):hover{
+  border-color:#e7bfd0;
+  background:#fff8fb;
+  box-shadow:0 6px 18px rgba(106,48,74,.06);
+}
+.form input[type="checkbox"]{
+  -webkit-appearance:none;
+  appearance:none;
+  width:46px!important;
+  min-width:46px!important;
+  max-width:46px!important;
+  height:26px!important;
+  min-height:26px!important;
+  margin:0!important;
+  padding:0!important;
+  border:1px solid #d9cbd1!important;
+  border-radius:999px!important;
+  background:#e9e5e7!important;
+  box-shadow:inset 0 1px 2px rgba(52,33,42,.08)!important;
+  position:relative;
+  cursor:pointer;
+  transition:background .2s ease,border-color .2s ease,box-shadow .2s ease;
+  flex:0 0 46px;
+}
+.form input[type="checkbox"]::before{
+  content:"";
+  position:absolute;
+  width:20px;
+  height:20px;
+  left:2px;
+  top:2px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 2px 7px rgba(43,27,34,.22);
+  transition:transform .2s cubic-bezier(.2,.8,.2,1);
+}
+.form input[type="checkbox"]:checked{
+  background:linear-gradient(135deg,#d92e78,#ef6aa0)!important;
+  border-color:#d92e78!important;
+  box-shadow:0 0 0 4px rgba(217,46,120,.09)!important;
+}
+.form input[type="checkbox"]:checked::before{transform:translateX(20px)}
+.form input[type="checkbox"]:focus-visible{
+  outline:none!important;
+  box-shadow:0 0 0 4px rgba(217,46,120,.16)!important;
+}
+.form input[type="checkbox"]:disabled{opacity:.55;cursor:not-allowed}
+.form label:has(> input[type="checkbox"]):has(input:checked){
+  border-color:#efc8d8;
+  background:linear-gradient(180deg,#fff,#fff5f9);
+}
+
+/* When a toggle is one half of a two-column row, keep the card height aligned. */
+.row>label:has(> input[type="checkbox"]){height:100%;align-self:stretch}
+
+@media(max-width:800px){
+  .form label:has(> input[type="checkbox"]){min-height:52px;padding:10px 12px;font-size:.88rem}
+  .form input[type="checkbox"]{width:48px!important;min-width:48px!important;max-width:48px!important;height:28px!important;min-height:28px!important;flex-basis:48px}
+  .form input[type="checkbox"]::before{width:22px;height:22px}
+  .form input[type="checkbox"]:checked::before{transform:translateX(20px)}
+}
+
+/* ===== V16 PROFESSIONAL DASHBOARD — visual-only upgrade, existing IDs/functions preserved ===== */
+:root{--admin-navy:#182335;--admin-navy-2:#223149;--admin-pink:#d92e78;--admin-pink-2:#ef6aa1;--admin-cream:#fff9f6;--admin-green:#31513d;--admin-blue:#5674d8}
+#dashboard{position:relative}
+#dashboard .dashboard-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 18px;padding:4px 2px}
+#dashboard .dashboard-kicker{font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:#b34c75;font-weight:850;margin-bottom:6px}
+#dashboard .dashboard-head h2{margin:0;font-size:clamp(1.35rem,2vw,1.8rem);color:#202a24;letter-spacing:-.025em}
+#dashboard .dashboard-head p{margin:7px 0 0;color:#7a7074;font-size:.9rem}
+#dashboard .dashboard-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+#dashboard .quick-btn{border:1px solid #eadde2;background:#fff;color:#54484d;padding:10px 13px;border-radius:12px;font-weight:800;cursor:pointer;box-shadow:0 5px 16px rgba(54,37,45,.04);transition:.18s ease}
+#dashboard .quick-btn:hover{transform:translateY(-1px);border-color:#e2b9c9;color:#a92d61}
+#dashboard .quick-btn.primary{background:linear-gradient(135deg,var(--admin-pink),var(--admin-pink-2));color:#fff;border-color:transparent;box-shadow:0 10px 22px rgba(217,46,120,.18)}
+#dashboard .cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+#dashboard .metric{min-height:132px;padding:20px 20px 18px 76px;display:flex;flex-direction:column;justify-content:center;border:1px solid #ebe3e5;background:#fff;box-shadow:0 10px 28px rgba(52,39,44,.055);overflow:visible}
+#dashboard .metric:before{left:20px;right:auto;top:24px;bottom:auto;width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:1.15rem;font-weight:900;background:#fff0f5;color:#d92e78;box-shadow:none}
+#dashboard .metric:nth-child(1):before{content:'◷';background:#fff0e2;color:#bc7519}
+#dashboard .metric:nth-child(2):before{content:'▣';background:#eef8f1;color:#37744c}
+#dashboard .metric:nth-child(3):before{content:'★';background:#fff0f5;color:#cf3b77}
+#dashboard .metric:nth-child(4):before{content:'✦';background:#eef2ff;color:#536dc0}
+#dashboard .metric strong{font-size:2rem;line-height:1;color:#252a27}
+#dashboard .metric span{font-size:.82rem;font-weight:750;color:#7b7375;margin-top:8px}
+#dashboard .dashboard-main-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(330px,.85fr);gap:18px;margin-top:18px;align-items:start}
+#dashboard .dashboard-stack{display:grid;gap:18px}
+#dashboard .panel{box-shadow:0 12px 34px rgba(52,39,44,.055);border-color:#ebe2e5}
+#dashboard .panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+#dashboard .panel-head h3{margin:0}
+#dashboard .panel-link{border:0;background:transparent;color:#c13e72;font-weight:800;font-size:.78rem;cursor:pointer}
+#dashboard .dash-appointments .item,#dashboard .dash-activity .item{border:0;border-bottom:1px solid #f0e9eb;border-radius:0;box-shadow:none;padding:13px 4px;background:transparent}
+#dashboard .dash-appointments .item:last-child,#dashboard .dash-activity .item:last-child{border-bottom:0}
+#dashboard .dash-appointments .item:hover,#dashboard .dash-activity .item:hover{background:#fff9fb;border-color:#f0e9eb}
+#dashboard .dash-appointments .list,#dashboard .dash-activity .list{max-height:420px;padding-right:5px}
+#dashboard .mini-overview{background:linear-gradient(145deg,#21382c,#31513d);color:#fff;border:0;position:relative;overflow:hidden}
+#dashboard .mini-overview:after{content:'';position:absolute;width:180px;height:180px;border-radius:50%;right:-75px;top:-80px;background:radial-gradient(circle,rgba(255,159,193,.28),transparent 65%)}
+#dashboard .mini-overview h3{color:#fff;position:relative;z-index:1}
+#dashboard .overview-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1}
+#dashboard .overview-chip{padding:14px;border:1px solid rgba(255,255,255,.14);border-radius:14px;background:rgba(255,255,255,.075)}
+#dashboard .overview-chip b{display:block;font-size:1.15rem}
+#dashboard .overview-chip span{display:block;font-size:.72rem;color:#d8e5dc;margin-top:4px}
+#dashboard .cms-shortcuts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#dashboard .shortcut{padding:14px 12px;border:1px solid #eee2e6;border-radius:14px;background:#fff;text-align:left;cursor:pointer;font-weight:800;color:#473c41;transition:.18s ease}
+#dashboard .shortcut small{display:block;font-weight:600;color:#8a7e82;margin-top:4px}
+#dashboard .shortcut:hover{border-color:#e4b8c9;background:#fffafd;transform:translateY(-1px)}
+/* TailAdmin-like structure but Encita colors */
+@media(min-width:801px){
+  .side{background:linear-gradient(180deg,#182335 0%,#1b2a40 58%,#21362f 100%)!important}
+  .nav button.active{background:linear-gradient(90deg,rgba(239,106,161,.22),rgba(255,255,255,.05))!important;box-shadow:inset 3px 0 0 #ef6aa1!important}
+  .main{background:linear-gradient(180deg,#f8fafb 0%,#fff8fa 100%);min-height:100vh}
+  .top{background:#fff!important;border-radius:16px!important;backdrop-filter:none!important;box-shadow:0 6px 24px rgba(35,41,53,.06)!important}
+}
+@media(max-width:1100px){#dashboard .cards{grid-template-columns:repeat(2,minmax(0,1fr))}#dashboard .dashboard-main-grid{grid-template-columns:1fr}}
+@media(max-width:800px){#dashboard .dashboard-head{align-items:flex-start;flex-direction:column}#dashboard .dashboard-actions{justify-content:flex-start}#dashboard .dashboard-main-grid{grid-template-columns:1fr}#dashboard .dash-appointments .list,#dashboard .dash-activity .list{max-height:none}}
+@media(max-width:560px){#dashboard .cards{grid-template-columns:1fr}#dashboard .metric{min-height:98px;padding:16px 16px 16px 68px}#dashboard .metric:before{left:16px;top:50%;transform:translateY(-50%)}#dashboard .metric strong{font-size:1.65rem}#dashboard .dashboard-actions{display:grid;grid-template-columns:1fr 1fr;width:100%}#dashboard .quick-btn{width:100%}.cms-shortcuts{grid-template-columns:1fr!important}.overview-row{grid-template-columns:1fr 1fr!important}}
 </style></head><body>
 <div id="login" class="login"><h1>Encita Clinic CMS</h1><p>Sign in with an approved clinic administrator account.</p><div class="form"><label>Email<input id="email" type="email"></label><label>Password<input id="password" type="password"></label><button id="signIn" class="btn pink">Sign in</button><div id="loginStatus" class="status"></div></div></div>
 <div id="app" class="shell hidden"><aside class="side"><div class="brand"><img src="../images/logo.png"><div><b>Encita Clinic</b><small style="display:block;opacity:.7">Content Manager</small></div></div><div class="nav" id="nav"><button data-tab="dashboard" class="active">Dashboard</button><button data-tab="appointments">Appointments</button><button data-tab="schedule">Schedule</button><button data-tab="reviews">Reviews</button><button data-tab="news">News</button><button data-tab="announcements">Announcements</button><button data-tab="team">Team</button><button data-tab="gallery">Gallery</button><button data-tab="faq">FAQ</button><button data-tab="services">Services</button><button data-tab="analytics">Analytics</button><button data-tab="trash">Trash</button></div></aside><main class="main"><div class="top"><div><h1 id="pageTitle" style="margin:0">Dashboard</h1><div id="who" style="color:var(--muted);font-size:.85rem"></div></div><button id="signOut" class="btn gray">Sign out</button></div>
-<section id="dashboard" class="section active"><div class="cards" id="metrics"></div><div class="grid2" style="margin-top:18px"><div class="panel"><h3>Upcoming appointments</h3><div id="dashAppointments" class="list"></div></div><div class="panel"><h3>Recent activity</h3><div id="activityList" class="list"></div></div></div></section>
+<section id="dashboard" class="section active">
+  <div class="dashboard-head">
+    <div><div class="dashboard-kicker">Encita Clinic CMS</div><h2>Clinic overview</h2><p>Appointments, website content and recent activity in one place.</p></div>
+    <div class="dashboard-actions">
+      <button class="quick-btn primary" type="button" onclick="document.querySelector('[data-tab=appointments]').click()">View appointments</button>
+      <button class="quick-btn" type="button" onclick="document.querySelector('[data-tab=news]').click()">Add update</button>
+      <button class="quick-btn" type="button" onclick="document.querySelector('[data-tab=schedule]').click()">Edit schedule</button>
+    </div>
+  </div>
+  <div class="cards" id="metrics"></div>
+  <div class="dashboard-main-grid">
+    <div class="dashboard-stack">
+      <div class="panel dash-appointments"><div class="panel-head"><h3>Upcoming appointments</h3><button class="panel-link" type="button" onclick="document.querySelector('[data-tab=appointments]').click()">View all →</button></div><div id="dashAppointments" class="list"></div></div>
+      <div class="panel"><div class="panel-head"><h3>Quick content actions</h3></div><div class="cms-shortcuts">
+        <button class="shortcut" type="button" onclick="document.querySelector('[data-tab=news]').click()">News<small>Publish clinic updates</small></button>
+        <button class="shortcut" type="button" onclick="document.querySelector('[data-tab=announcements]').click()">Announcements<small>Post important notices</small></button>
+        <button class="shortcut" type="button" onclick="document.querySelector('[data-tab=reviews]').click()">Reviews<small>Manage testimonials</small></button>
+        <button class="shortcut" type="button" onclick="document.querySelector('[data-tab=gallery]').click()">Gallery<small>Upload clinic photos</small></button>
+      </div></div>
+    </div>
+    <div class="dashboard-stack">
+      <div class="panel mini-overview"><h3>Website management</h3><div class="overview-row"><div class="overview-chip"><b>Live</b><span>Public website</span></div><div class="overview-chip"><b>Supabase</b><span>CMS connected</span></div><div class="overview-chip"><b>Responsive</b><span>Mobile & tablet</span></div><div class="overview-chip"><b>Secure</b><span>Admin access</span></div></div></div>
+      <div class="panel dash-activity"><div class="panel-head"><h3>Recent activity</h3><button class="panel-link" type="button" onclick="document.querySelector('[data-tab=analytics]').click()">Analytics →</button></div><div id="activityList" class="list"></div></div>
+    </div>
+  </div>
+</section>
 <section id="appointments" class="section"><div class="panel"><div style="display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap"><h3>Appointment requests</h3><select id="apptFilter"><option value="">All statuses</option><option>pending</option><option>confirmed</option><option>completed</option><option>cancelled</option></select></div><div id="appointmentsList" class="list"></div></div></section>
 <section id="schedule" class="section"><div class="grid2"><div class="panel"><h3>Clinic schedule</h3><div class="form"><div class="row"><label>Badge top<input id="badgeTop"></label><label>Badge main<input id="badgeMain"></label></div><label>Title<input id="scheduleTitle"></label><div class="row"><label>Provider<input id="provider"></label><label>Specialty<input id="specialty"></label></div><label>Date / time text<input id="scheduleTime"></label><label>Note<textarea id="scheduleNote"></textarea></label><label><input type="checkbox" id="scheduleActive"> Active</label><button id="saveSchedule" class="btn pink">Publish schedule</button><div id="scheduleStatus" class="status"></div></div></div><div class="panel"><h3>Tip</h3><p>Use this for the current or upcoming provider schedule. Keep it generic when availability changes often.</p></div></div></section>
 <section id="reviews" class="section"><div class="grid2"><div class="panel"><h3>Add / edit review</h3><div class="form"><label>Reviewer<input id="reviewerName"></label><div class="row"><label>Date<input id="reviewDate" type="date"></label><label>Rating<select id="reviewRating"><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></label></div><label>Review<textarea id="reviewText"></textarea></label><div class="row"><label>Source<select id="reviewSourceLabel"><option>Facebook recommendation</option><option>Google review</option><option>Clinic feedback</option></select></label><label>Source URL<input id="reviewSourceUrl" value="https://www.facebook.com/encitalyinginclinic/"></label></div><div class="row"><label>Sort order<input id="reviewSort" type="number" value="100"></label><label><input type="checkbox" id="reviewFeatured"> Featured</label></div><label><input type="checkbox" id="reviewPublished" checked> Published</label><div><button id="saveReview" class="btn pink">Save review</button> <button id="cancelReview" class="btn gray hidden">Cancel</button></div><div id="reviewStatus" class="status"></div></div></div><div class="panel"><h3>Reviews</h3><div id="reviewsList" class="list"></div></div></div></section>
