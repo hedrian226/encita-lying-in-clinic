@@ -1,0 +1,1 @@
+V13: Professional responsive admin redesign + appointment Delete/Trash support. No Supabase SQL changes required; V11 migration already includes admin update/delete access for clinic_appointments. Deleted appointments are soft-deleted and appear in Trash, where they can be restored or permanently deleted.

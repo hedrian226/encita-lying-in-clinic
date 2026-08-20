@@ -634,6 +634,55 @@
 @media(max-width:900px){.v11-grid,.team-grid,.gallery-grid{grid-template-columns:1fr 1fr}.appointment-shell{grid-template-columns:1fr}.faq-grid{grid-template-columns:1fr}}
 @media(max-width:640px){.v11-bar-inner{padding:9px 16px;font-size:.82rem}.v11-grid,.team-grid,.gallery-grid{grid-template-columns:1fr}.appointment-shell{padding:24px 18px;border-radius:22px}.form-grid{grid-template-columns:1fr}.form-group.full{grid-column:auto}.search-fab{display:none}.mobile-contact{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(255,255,255,.96);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,.08);padding:7px 4px max(7px,env(safe-area-inset-bottom))}.mobile-contact a,.mobile-contact button{display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:transparent;text-decoration:none;color:var(--sage-900);font:700 .68rem var(--sans);padding:6px 2px}.mobile-contact b{font-size:17px}.section:last-of-type{padding-bottom:110px}}
 
+
+/* ===== V12 MOBILE/TABLET PERFORMANCE PASS ===== */
+@media (max-width: 1024px){
+  html,body{overflow-x:hidden;max-width:100%}
+  .wrap{max-width:100%}
+  .section:not(.hero){content-visibility:auto;contain-intrinsic-size:800px}
+  .v11-card,.review-card,.news-card,.stat-card,.journey-card,.contact-card{box-shadow:0 10px 26px -22px rgba(65,36,48,.28)!important}
+  .search-modal{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(33,24,29,.68)!important}
+  .lightbox{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .team-photo img,.gallery-item img,.news-image img,.about-visual img{will-change:auto!important}
+}
+@media (max-width: 768px){
+  /* Keep the branded moving background, but only one cheap animated layer. */
+  #react-bits-bg{opacity:.62!important;contain:strict!important}
+  .rb-orb{display:none!important}
+  .rb-orb.one{display:block!important;filter:blur(18px)!important;opacity:.24!important;animation-duration:36s!important;transform:translateZ(0)}
+  .rb-grid{opacity:.1!important;animation:none!important}
+  /* Continuous marquee caused noticeable mobile main-thread work. Make it swipeable instead. */
+  .service-marquee-track{animation:none!important;overflow-x:auto!important;overflow-y:hidden!important;transform:none!important;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;overscroll-behavior-inline:contain}
+  .service-marquee-track span{scroll-snap-align:start;flex:0 0 auto}
+  /* Lightweight hero motion: logo float + soft aura only. */
+  .logo-orbit,.logo-spark,.logo-heart{display:none!important}
+  .logo-aurora{animation:logoAuroraSpin 42s linear infinite!important;filter:blur(14px)!important;opacity:.28!important}
+  .logo-aura{animation:logoAura 8s ease-in-out infinite!important;filter:blur(8px)!important;opacity:.18!important}
+  .logo-main-wrap{animation:logoFloat 7s ease-in-out infinite!important;will-change:transform}
+  .logo-main-wrap::before,.logo-main{animation:none!important}
+  /* Reveal without CSS blur. Blur is expensive while scrolling on Android. */
+  .reveal{filter:none!important;transform:translateY(10px)!important;transition:opacity .36s ease,transform .36s ease!important}
+  .reveal.in{filter:none!important;transform:none!important}
+  .shiny-text{animation:none!important;background:none!important;-webkit-text-fill-color:inherit!important;color:inherit!important}
+  .border-glow::before,.rb-spotlight::after{display:none!important}
+  header,.mobile-contact{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .scroll-progress{display:none!important}
+  .gallery-item,.team-photo{transform:translateZ(0)}
+  .gallery-caption{padding:24px 12px 12px}
+  .appointment-shell{box-shadow:none!important}
+  .appointment-form{box-shadow:none!important}
+  .form-group input,.form-group select,.form-group textarea{font-size:16px!important;min-height:46px}
+  .form-group textarea{min-height:96px}
+  .btn{touch-action:manipulation}
+}
+@media (max-width: 480px){
+  .section{padding:50px 0!important}
+  .appointment-shell{padding:18px 12px!important}
+  .appointment-form{padding:18px 14px!important;border-radius:18px!important}
+  .v11-card{padding:18px!important}
+  .mobile-contact a,.mobile-contact button{min-height:48px;justify-content:center}
+}
+
 </style>
 </head>
 <body>
@@ -1150,10 +1199,11 @@
   const progress = document.getElementById('scroll-progress');
   const aura = document.getElementById('cursor-aura');
   const updateProgress = () => {
+    if (ENCITA_MOBILE_LITE) return;
     const max = document.documentElement.scrollHeight - innerHeight;
     if (progress) progress.style.width = `${max > 0 ? (scrollY/max)*100 : 0}%`;
   };
-  addEventListener('scroll', updateProgress, {passive:true}); updateProgress();
+  if (!ENCITA_MOBILE_LITE) { addEventListener('scroll', updateProgress, {passive:true}); updateProgress(); }
   if (aura && !matchMedia('(pointer:coarse)').matches){
     addEventListener('pointermove', e => { aura.style.left=e.clientX+'px'; aura.style.top=e.clientY+'px'; aura.style.opacity='1'; }, {passive:true});
     addEventListener('pointerleave',()=>aura.style.opacity='0');
@@ -1314,7 +1364,7 @@
  document.getElementById('lightboxClose').onclick=()=>document.getElementById('lightbox').classList.remove('open');document.getElementById('lightbox').onclick=e=>{if(e.target.id==='lightbox')e.currentTarget.classList.remove('open')};
  // Analytics (privacy-light click/event counts)
  async function track(event_name,meta={}){try{await sb.from('clinic_analytics').insert({event_name,metadata:meta,path:location.pathname})}catch(e){}}
- window.trackEncita=track;document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;const h=a.getAttribute('href')||'';if(h.startsWith('tel:'))track('call_click');else if(h.includes('facebook.com'))track('facebook_click');else if(h.includes('maps')||h.includes('#visit'))track('directions_click')});track('page_view');
+ window.trackEncita=track;document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;const h=a.getAttribute('href')||'';if(h.startsWith('tel:'))track('call_click');else if(h.includes('facebook.com'))track('facebook_click');else if(h.includes('maps')||h.includes('#visit'))track('directions_click')});(window.requestIdleCallback||function(fn){setTimeout(fn,800)})(()=>track('page_view'));
 })();
 </script>
 
