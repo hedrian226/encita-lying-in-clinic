@@ -683,6 +683,33 @@
   .mobile-contact a,.mobile-contact button{min-height:48px;justify-content:center}
 }
 
+
+
+  /* ---------- V20 DYNAMIC SERVICES GALLERY ---------- */
+  .cms-services-section{background:linear-gradient(180deg,#fffafd 0%,#fff3f8 100%);overflow:hidden}
+  .cms-services-head{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:36px}
+  .cms-services-head .section-head{margin-bottom:0}
+  .cms-services-note{max-width:360px;color:var(--ink-soft);font-size:.94rem}
+  .cms-services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+  .cms-service-card{background:#fff;border:1px solid rgba(213,66,127,.16);border-radius:24px;overflow:hidden;box-shadow:0 18px 42px -30px rgba(130,30,80,.42);display:flex;flex-direction:column;min-width:0;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+  .cms-service-card:hover{transform:translateY(-5px);box-shadow:0 24px 54px -30px rgba(130,30,80,.5);border-color:rgba(213,66,127,.3)}
+  .cms-service-media{aspect-ratio:16/10;background:linear-gradient(145deg,#ffe7f1,#fff7fb);position:relative;overflow:hidden}
+  .cms-service-media img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+  .cms-service-card:hover .cms-service-media img{transform:scale(1.035)}
+  .cms-service-placeholder{height:100%;display:flex;align-items:center;justify-content:center;color:#cf4b83}
+  .cms-service-placeholder svg{width:58px;height:58px;opacity:.45}
+  .cms-service-category{position:absolute;left:16px;bottom:14px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);padding:7px 12px;border-radius:999px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#9c2d60;border:1px solid rgba(213,66,127,.15)}
+  .cms-service-body{padding:22px;display:flex;flex-direction:column;flex:1}
+  .cms-service-body h3{font-size:1.34rem;margin:0 0 10px;color:#7f194b}
+  .cms-service-body p{color:var(--ink-soft);font-size:.96rem;line-height:1.65;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+  .cms-service-meta{margin-top:auto;padding-top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid #f2dce6}
+  .cms-service-availability{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-weight:700;color:#8b3159}
+  .cms-service-availability svg{width:16px;height:16px;flex:0 0 auto}
+  .cms-service-book{font-size:.84rem;padding:9px 14px}
+  .cms-services-empty{grid-column:1/-1;padding:28px;text-align:center;border:1px dashed #e7b8cc;border-radius:20px;color:var(--ink-soft);background:rgba(255,255,255,.6)}
+  @media(max-width:900px){.cms-services-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cms-services-head{align-items:flex-start;flex-direction:column}.cms-services-note{max-width:none}}
+  @media(max-width:600px){.cms-services-grid{grid-template-columns:1fr;gap:18px}.cms-service-card:hover{transform:none}.cms-service-media{aspect-ratio:16/9}.cms-service-body{padding:18px}.cms-service-meta{align-items:flex-start;flex-direction:column}.cms-service-book{width:100%;justify-content:center}.cms-services-head{margin-bottom:24px}}
+
 </style>
 </head>
 <body>
@@ -890,6 +917,24 @@
       </div>
       <p style="margin-top:14px; font-size:0.82rem; color:var(--ink-soft);">*No balance billing applies to qualified low-risk pregnancies under PhilHealth. Message us to confirm your eligibility.</p>
 
+    </div>
+  </section>
+
+
+  <!-- V20: CMS-MANAGED SERVICES GALLERY -->
+  <section class="section cms-services-section" id="our-services">
+    <div class="wrap">
+      <div class="cms-services-head reveal">
+        <div class="section-head">
+          <span class="eyebrow">Explore our services</span>
+          <h2>More care, all in one place</h2>
+          <p class="lede">Browse additional clinic services published by the Encita team. Availability may vary, so you can request an appointment or contact us to confirm.</p>
+        </div>
+        <p class="cms-services-note">The four care-journey steps above remain permanent. This section is managed separately from the Admin CMS.</p>
+      </div>
+      <div class="cms-services-grid" id="cmsServicesGrid">
+        <div class="cms-services-empty">Additional clinic services will appear here when published.</div>
+      </div>
     </div>
   </section>
 
@@ -1351,8 +1396,28 @@
  const gg=document.getElementById('galleryGrid'); if(gallery.length){gg.innerHTML=gallery.map(g=>`<figure class="gallery-item" data-full="${esc(g.image_url||'')}">${g.image_url?`<img src="${esc(g.image_url)}" alt="${esc(g.caption||g.category||'Encita clinic photo')}" loading="lazy">`:''}<figcaption class="gallery-caption"><strong>${esc(g.category||'Gallery')}</strong>${g.caption?`<br>${esc(g.caption)}`:''}</figcaption></figure>`).join('');gallery.forEach(g=>addSearch('Gallery',g.category||'Clinic photo',g.caption||'','#gallery'));gg.querySelectorAll('.gallery-item').forEach(el=>el.onclick=()=>{if(!el.dataset.full)return;document.getElementById('lightboxImg').src=el.dataset.full;document.getElementById('lightbox').classList.add('open')})}
  // FAQ
  const fg=document.getElementById('faqGrid'); if(faqs.length){fg.innerHTML=faqs.map(f=>`<div class="faq-item"><button class="faq-q" type="button"><span>${esc(f.question)}</span><span>＋</span></button><div class="faq-a">${esc(f.answer)}</div></div>`).join('');fg.querySelectorAll('.faq-q').forEach(b=>b.onclick=()=>b.parentElement.classList.toggle('open'));faqs.forEach(f=>addSearch('FAQ',f.question,f.answer,'#faq'))}
- // Dynamic services supplement: append CMS services to journey list if any
- const jl=document.querySelector('.journey-list'); if(jl&&services.length){services.forEach(s=>{if(document.querySelector(`[data-service-id="${s.id}"]`))return;const e=document.createElement('div');e.className='journey-item reveal';e.dataset.serviceId=s.id;e.innerHTML=`<div class="journey-marker">♥</div><div class="journey-card"><span class="journey-step-label">${esc(s.category||'Service')}</span><h3>${esc(s.name)}</h3><p>${esc(s.description||'')}</p>${s.availability?`<div class="journey-tags"><span class="journey-tag">${esc(s.availability)}</span></div>`:''}</div>`;jl.appendChild(e)});services.forEach(s=>addSearch('Service',s.name,(s.description||'')+' '+(s.category||''),'#services'))}
+ // V20 Dynamic Services Gallery: keep the original four journey cards untouched.
+ const serviceGrid=document.getElementById('cmsServicesGrid');
+ if(serviceGrid){
+   if(services.length){
+     serviceGrid.innerHTML=services.map(s=>{
+       const name=String(s.name||'Clinic service').trim();
+       const category=esc(s.category||'Clinic service');
+       const description=esc(s.description||'Contact Encita for more information about this service.');
+       const availability=esc(s.availability||'Contact clinic to confirm');
+       const image=s.image_url?`<img src="${esc(s.image_url)}" alt="${esc(name)}" loading="lazy" decoding="async">`:`<div class="cms-service-placeholder" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 11c0 5.65-7 10-7 10Z"/><path d="M9 11h6M12 8v6"/></svg></div>`;
+       return `<article class="cms-service-card reveal in" data-service-id="${s.id}"><div class="cms-service-media">${image}<span class="cms-service-category">${category}</span></div><div class="cms-service-body"><h3>${esc(name)}</h3><p>${description}</p><div class="cms-service-meta"><span class="cms-service-availability"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${availability}</span><a class="btn btn-rose cms-service-book" href="#appointment" data-book-service="${esc(name)}">Request appointment</a></div></div></article>`;
+     }).join('');
+     serviceGrid.querySelectorAll('[data-book-service]').forEach(btn=>btn.addEventListener('click',()=>{const sel=document.getElementById('apptService');if(sel){const target=btn.dataset.bookService;const opt=[...sel.options].find(o=>o.textContent.trim().toLowerCase()===target.trim().toLowerCase());if(opt)sel.value=opt.value}}));
+     services.forEach(s=>addSearch('Service',String(s.name||'Clinic service'),(s.description||'')+' '+(s.category||'')+' '+(s.availability||''),'#our-services'));
+   }
+ }
+ // Keep the appointment service dropdown in sync with CMS services.
+ const apptSelect=document.getElementById('apptService');
+ if(apptSelect&&services.length){
+   const optionNames=new Set([...apptSelect.options].map(o=>o.textContent.trim().toLowerCase()));
+   services.forEach(s=>{const n=String(s.name||'').trim();if(n&&!optionNames.has(n.toLowerCase())){const o=document.createElement('option');o.value=n;o.textContent=n;apptSelect.appendChild(o);optionNames.add(n.toLowerCase())}});
+ }
  // Existing searchable content
  document.querySelectorAll('.journey-card h3').forEach(h=>addSearch('Service',h.textContent,h.parentElement.textContent,'#services'));
  document.querySelectorAll('.news-card').forEach(n=>addSearch('News',n.querySelector('h3')?.textContent||'Clinic update',n.textContent,'#updates'));

@@ -302,6 +302,86 @@ input[type="date"],input[type="time"],input[type="datetime-local"]{max-width:100
   #dashboard .quick-btn{width:100%!important}
 }
 
+
+/* ===== V18 FINAL RESPONSIVE SAFETY OVERRIDES =====
+   Consolidates the later admin responsive rules so older breakpoints cannot override them. */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+.shell{width:100%;min-width:0}
+.main{min-width:0;width:100%;margin:0 auto}
+.section,.grid2,.panel,.form,.row,.item{min-width:0}
+.form label{display:grid;gap:7px;min-width:0}
+.form input,.form select,.form textarea{display:block;width:100%!important;max-width:100%!important;min-width:0!important}
+.form textarea{resize:vertical}
+input[type="date"],input[type="time"],input[type="datetime-local"]{width:100%!important;max-width:100%!important;min-width:0!important}
+
+/* Toggle rows: never let generic input rules stretch checkboxes. */
+.form label:has(> input[type="checkbox"]){
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;
+  width:100%!important;min-height:58px!important;padding:12px 14px!important;border:1px solid #eadde2!important;
+  border-radius:14px!important;background:#fff!important;font-size:.88rem!important;font-weight:800!important;color:#463b40!important;
+}
+.form input[type="checkbox"]{
+  appearance:none!important;-webkit-appearance:none!important;display:block!important;
+  width:48px!important;min-width:48px!important;max-width:48px!important;height:28px!important;min-height:28px!important;
+  margin:0!important;padding:0!important;position:relative!important;flex:0 0 48px!important;border-radius:999px!important;
+  border:1px solid #d8ccd1!important;background:#e9e5e7!important;cursor:pointer!important;overflow:visible!important;
+}
+.form input[type="checkbox"]::before{content:""!important;position:absolute!important;width:22px!important;height:22px!important;left:2px!important;top:2px!important;border-radius:50%!important;background:#fff!important;box-shadow:0 2px 7px rgba(43,27,34,.2)!important;transition:transform .2s ease!important}
+.form input[type="checkbox"]:checked{background:linear-gradient(135deg,#d92e78,#ef6aa1)!important;border-color:#d92e78!important}
+.form input[type="checkbox"]:checked::before{transform:translateX(20px)!important}
+.form label:has(> input[type="checkbox"]):has(input:checked){border-color:#efc8d8!important;background:#fff7fa!important}
+
+/* Desktop */
+@media (min-width:1281px){
+  .shell{display:grid!important;grid-template-columns:270px minmax(0,1fr)!important;min-height:100vh!important}
+  .side{position:sticky!important;top:0!important;height:100vh!important;min-height:100vh!important;overflow-y:auto!important;overflow-x:hidden!important;padding:24px 18px!important}
+  .nav{display:grid!important;overflow:visible!important}
+  .nav button{width:100%!important;min-width:0!important}
+  .main{padding:32px 34px 50px!important;max-width:1500px!important}
+}
+
+/* Laptop zoom / tablet: use top scrollable navigation before content gets squeezed. */
+@media (max-width:1280px){
+  .shell{display:block!important;min-height:100dvh!important}
+  .side{position:sticky!important;top:0!important;z-index:80!important;width:100%!important;height:auto!important;min-height:0!important;overflow:visible!important;padding:10px 14px!important;border-right:0!important}
+  .brand{padding:0 2px 8px!important;margin:0 0 7px!important}
+  .brand img{width:38px!important;height:38px!important}
+  .brand small{display:none!important}
+  .nav{display:flex!important;flex-wrap:nowrap!important;gap:7px!important;overflow-x:auto!important;overflow-y:hidden!important;padding:0 0 4px!important;scrollbar-width:none!important;-webkit-overflow-scrolling:touch!important}
+  .nav::-webkit-scrollbar{display:none!important}
+  .nav button{display:block!important;width:auto!important;min-width:max-content!important;flex:0 0 auto!important;margin:0!important;padding:9px 12px!important;min-height:40px!important}
+  .main{padding:18px 16px 78px!important;max-width:none!important}
+  .top{position:relative!important;top:auto!important;margin-bottom:16px!important}
+  .grid2,#dashboard .grid2{grid-template-columns:minmax(0,1fr)!important;gap:14px!important}
+  .cards,#dashboard .cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .list,#dashAppointments,#activityList{max-height:none!important}
+}
+
+@media (max-width:760px){
+  .main{padding:14px 11px 88px!important}
+  .top{padding:14px!important}
+  .top h1{font-size:1.5rem!important}
+  .panel,.metric{padding:15px!important;border-radius:16px!important;overflow:visible!important}
+  .row{grid-template-columns:minmax(0,1fr)!important}
+  .form{gap:11px!important}
+  .form input:not([type="checkbox"]),.form select,.form textarea{font-size:16px!important}
+  .item{flex-direction:column!important}
+  .actions,.appt-actions{width:100%!important;display:flex!important;flex-wrap:wrap!important;justify-content:flex-start!important}
+  .actions .btn,.appt-actions .btn{flex:1 1 120px!important}
+  #dashboard .dashboard-head{flex-direction:column!important;align-items:flex-start!important}
+  #dashboard .dashboard-actions{width:100%!important;justify-content:flex-start!important}
+}
+
+@media (max-width:520px){
+  .cards,#dashboard .cards{grid-template-columns:minmax(0,1fr)!important}
+  .top{flex-direction:column!important;align-items:stretch!important}
+  .top #signOut{width:100%!important}
+  .form label:has(> input[type="checkbox"]){min-height:54px!important;padding:10px 12px!important}
+  #dashboard .dashboard-actions{display:grid!important;grid-template-columns:minmax(0,1fr)!important}
+  #dashboard .quick-btn{width:100%!important}
+  #dashboard .cms-shortcuts{grid-template-columns:minmax(0,1fr)!important}
+  #dashboard .overview-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
 </style></head><body>
 <div id="login" class="login"><h1>Encita Clinic CMS</h1><p>Sign in with an approved clinic administrator account.</p><div class="form"><label>Email<input id="email" type="email"></label><label>Password<input id="password" type="password"></label><button id="signIn" class="btn pink">Sign in</button><div id="loginStatus" class="status"></div></div></div>
 <div id="app" class="shell hidden"><aside class="side"><div class="brand"><img src="../images/logo.png"><div><b>Encita Clinic</b><small style="display:block;opacity:.7">Content Manager</small></div></div><div class="nav" id="nav"><button data-tab="dashboard" class="active">Dashboard</button><button data-tab="appointments">Appointments</button><button data-tab="schedule">Schedule</button><button data-tab="reviews">Reviews</button><button data-tab="news">News</button><button data-tab="announcements">Announcements</button><button data-tab="team">Team</button><button data-tab="gallery">Gallery</button><button data-tab="faq">FAQ</button><button data-tab="services">Services</button><button data-tab="analytics">Analytics</button><button data-tab="trash">Trash</button></div></aside><main class="main"><div class="top"><div><h1 id="pageTitle" style="margin:0">Dashboard</h1><div id="who" style="color:var(--muted);font-size:.85rem"></div></div><button id="signOut" class="btn gray">Sign out</button></div>
@@ -339,7 +419,7 @@ input[type="date"],input[type="time"],input[type="datetime-local"]{max-width:100
 <section id="team" class="section"><div class="grid2"><div class="panel"><h3>Team profile</h3><div class="form"><label>Name<input id="teamName"></label><div class="row"><label>Role<input id="teamRole"></label><label>Specialty<input id="teamSpecialty"></label></div><label>Schedule<input id="teamSchedule"></label><label>Bio<textarea id="teamBio"></textarea></label><label>Photo<input id="teamPhoto" type="file" accept="image/*"></label><label>Sort order<input id="teamSort" type="number" value="100"></label><label><input id="teamPublished" type="checkbox" checked> Published</label><button id="saveTeam" class="btn pink">Save profile</button><div id="teamStatus" class="status"></div></div></div><div class="panel"><h3>Team</h3><div id="teamList" class="list"></div></div></div></section>
 <section id="gallery" class="section"><div class="grid2"><div class="panel"><h3>Add gallery photo</h3><div class="form"><label>Category<select id="galleryCategory"><option>Facilities</option><option>Delivery Room</option><option>Newborn Care</option><option>Ultrasound</option><option>Events</option><option>Team</option></select></label><label>Caption<textarea id="galleryCaption"></textarea></label><label>Photo<input id="galleryImage" type="file" accept="image/*"></label><label>Sort order<input id="gallerySort" type="number" value="100"></label><label><input id="galleryPublished" type="checkbox" checked> Published</label><button id="saveGallery" class="btn pink">Add photo</button><div id="galleryStatus" class="status"></div></div></div><div class="panel"><h3>Gallery</h3><div id="galleryList" class="list"></div></div></div></section>
 <section id="faq" class="section"><div class="grid2"><div class="panel"><h3>Add FAQ</h3><div class="form"><label>Question<input id="faqQuestion"></label><label>Answer<textarea id="faqAnswer"></textarea></label><label>Sort order<input id="faqSort" type="number" value="100"></label><label><input id="faqPublished" type="checkbox" checked> Published</label><button id="saveFaq" class="btn pink">Add FAQ</button><div id="faqStatus" class="status"></div></div></div><div class="panel"><h3>FAQ</h3><div id="faqList" class="list"></div></div></div></section>
-<section id="services" class="section"><div class="grid2"><div class="panel"><h3>Add service</h3><div class="form"><label>Name<input id="serviceName"></label><div class="row"><label>Category<input id="serviceCategory"></label><label>Availability<input id="serviceAvailability"></label></div><label>Description<textarea id="serviceDescription"></textarea></label><label>Sort order<input id="serviceSort" type="number" value="100"></label><label><input id="servicePublished" type="checkbox" checked> Published</label><button id="saveService" class="btn pink">Add service</button><div id="serviceStatus" class="status"></div></div></div><div class="panel"><h3>CMS services</h3><div id="serviceList" class="list"></div></div></div></section>
+<section id="services" class="section"><div class="grid2"><div class="panel"><h3>Add service</h3><p class="muted" style="margin-top:-6px">These services appear in the separate public “Our Services” gallery. The original four patient-journey cards are not changed.</p><div class="form"><label>Service picture<input id="serviceImage" type="file" accept="image/*"></label><label>Name<input id="serviceName" placeholder="e.g. 3D/4D Ultrasound"></label><div class="row"><label>Category<input id="serviceCategory" placeholder="e.g. Diagnostic"></label><label>Availability<input id="serviceAvailability" placeholder="e.g. Monday–Saturday"></label></div><label>Description<textarea id="serviceDescription" placeholder="Short description shown on the public service card"></textarea></label><label>Sort order<input id="serviceSort" type="number" value="100"></label><label><input id="servicePublished" type="checkbox" checked> Published</label><button id="saveService" class="btn pink">Add service</button><div id="serviceStatus" class="status"></div></div></div><div class="panel"><h3>CMS services</h3><div id="serviceList" class="list"></div></div></div></section>
 <section id="analytics" class="section"><div class="cards" id="analyticsCards"></div><div class="panel" style="margin-top:18px"><h3>Event activity</h3><div id="analyticsList" class="list"></div></div></section>
 <section id="trash" class="section"><div class="panel"><h3>Recently deleted content</h3><p>Restore content or permanently delete it.</p><div id="trashList" class="list"></div></div></section>
 </main></div>
@@ -362,7 +442,8 @@ async function addGeneric(table,p,statusId,reload){const {data,error}=await sb.f
 $('saveAnn').onclick=()=>addGeneric('clinic_announcements',{title:$('annTitle').value,message:$('annMessage').value||null,link_url:$('annLink').value||null,starts_at:$('annStart').value?new Date($('annStart').value).toISOString():null,ends_at:$('annEnd').value?new Date($('annEnd').value).toISOString():null,priority:+$('annPriority').value||100,is_published:$('annPublished').checked},'annStatus',()=>loadGeneric('clinic_announcements','annList',x=>x.title));
 $('saveTeam').onclick=async()=>{try{const f=$('teamPhoto').files[0],url=f?await upload(f):null;addGeneric('clinic_team',{name:$('teamName').value,role:$('teamRole').value||null,specialty:$('teamSpecialty').value||null,schedule_text:$('teamSchedule').value||null,bio:$('teamBio').value||null,photo_url:url,sort_order:+$('teamSort').value||100,is_published:$('teamPublished').checked},'teamStatus',()=>loadGeneric('clinic_team','teamList',x=>x.name))}catch(e){stat('teamStatus',e.message)}};
 $('saveGallery').onclick=async()=>{try{const f=$('galleryImage').files[0];if(!f)return stat('galleryStatus','Choose a photo.');const url=await upload(f);addGeneric('clinic_gallery',{category:$('galleryCategory').value,caption:$('galleryCaption').value||null,image_url:url,sort_order:+$('gallerySort').value||100,is_published:$('galleryPublished').checked},'galleryStatus',()=>loadGeneric('clinic_gallery','galleryList',x=>x.category+' · '+(x.caption||'')))}catch(e){stat('galleryStatus',e.message)}};
-$('saveFaq').onclick=()=>addGeneric('clinic_faqs',{question:$('faqQuestion').value,answer:$('faqAnswer').value,sort_order:+$('faqSort').value||100,is_published:$('faqPublished').checked},'faqStatus',()=>loadGeneric('clinic_faqs','faqList',x=>x.question));$('saveService').onclick=()=>addGeneric('clinic_services',{name:$('serviceName').value,category:$('serviceCategory').value||null,availability:$('serviceAvailability').value||null,description:$('serviceDescription').value||null,sort_order:+$('serviceSort').value||100,is_published:$('servicePublished').checked},'serviceStatus',()=>loadGeneric('clinic_services','serviceList',x=>x.name));
+$('saveFaq').onclick=()=>addGeneric('clinic_faqs',{question:$('faqQuestion').value,answer:$('faqAnswer').value,sort_order:+$('faqSort').value||100,is_published:$('faqPublished').checked},'faqStatus',()=>loadGeneric('clinic_faqs','faqList',x=>x.question));
+$('saveService').onclick=async()=>{try{const name=$('serviceName').value.trim();if(!name)return stat('serviceStatus','Service name is required.');const f=$('serviceImage').files[0];const image_url=f?await upload(f):null;const {data,error}=await sb.from('clinic_services').insert({name,category:$('serviceCategory').value.trim()||null,availability:$('serviceAvailability').value.trim()||null,description:$('serviceDescription').value.trim()||null,image_url,sort_order:+$('serviceSort').value||100,is_published:$('servicePublished').checked}).select().single();if(error)throw error;stat('serviceStatus','Service published.',true);log('created','clinic_services',data.id);$('serviceName').value='';$('serviceCategory').value='';$('serviceAvailability').value='';$('serviceDescription').value='';$('serviceImage').value='';loadGeneric('clinic_services','serviceList',x=>x.name)}catch(e){stat('serviceStatus',e.message)}};
 window.softDelete=async(table,id)=>{if(!confirm('Move this item to Trash?'))return;await sb.from(table).update({is_deleted:true,deleted_at:new Date().toISOString()}).eq('id',id);log('trashed',table,id);refreshAll()};async function loadTrash(){const tables=['clinic_appointments','clinic_reviews','clinic_news','clinic_announcements','clinic_team','clinic_gallery','clinic_faqs','clinic_services'];let rows=[];for(const t of tables){const {data}=await sb.from(t).select('id,created_at,deleted_at').eq('is_deleted',true);(data||[]).forEach(x=>rows.push({...x,table:t}))}$('trashList').innerHTML=rows.map(x=>`<div class="item"><div><b>${esc(x.table)}</b><p>ID ${x.id} · deleted ${x.deleted_at?new Date(x.deleted_at).toLocaleString():''}</p></div><div class="actions"><button class="btn" onclick="restoreItem('${x.table}',${x.id})">Restore</button><button class="btn red" onclick="purgeItem('${x.table}',${x.id})">Delete forever</button></div></div>`).join('')||'Trash is empty.'}window.restoreItem=async(t,id)=>{await sb.from(t).update({is_deleted:false,deleted_at:null}).eq('id',id);log('restored',t,id);loadTrash()};window.purgeItem=async(t,id)=>{if(!confirm('Permanently delete? This cannot be undone.'))return;await sb.from(t).delete().eq('id',id);log('permanently_deleted',t,id);loadTrash()};
 async function loadAnalytics(){const {data}=await sb.from('clinic_analytics').select('*').order('created_at',{ascending:false}).limit(500);const counts={};(data||[]).forEach(x=>counts[x.event_name]=(counts[x.event_name]||0)+1);$('analyticsCards').innerHTML=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,v])=>`<div class="metric"><strong>${v}</strong><span>${esc(k.replaceAll('_',' '))}</span></div>`).join('')||'<div class="metric"><span>No analytics yet.</span></div>';$('analyticsList').innerHTML=(data||[]).slice(0,30).map(x=>`<div class="item"><div><b>${esc(x.event_name)}</b><p>${new Date(x.created_at).toLocaleString()} · ${esc(x.path||'')}</p></div></div>`).join('')}
 init();
