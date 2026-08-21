@@ -749,6 +749,8 @@
 .announcement-card{border:1px solid rgba(220,43,112,.18);background:linear-gradient(145deg,#fff,#fff7fa)}
 .announcement-card .news-body{padding:24px}.announcement-badge{display:inline-flex;padding:6px 11px;border-radius:999px;background:#fde7f0;color:#a5285b;font-size:.75rem;font-weight:800;text-transform:uppercase;margin-bottom:12px}.announcement-more{display:inline-flex;margin-top:16px;color:#a5285b;font-weight:800;text-decoration:none}
 @media(max-width:640px){.announcement-card .news-body{padding:18px}}
+.update-open-card{cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}.update-open-card:hover{transform:translateY(-3px);box-shadow:0 18px 46px rgba(104,31,65,.13)}.update-card-excerpt{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}.update-read-more{margin-top:14px;padding:0;border:0;background:transparent;color:#9b2459;font-weight:850;cursor:pointer;font:inherit;text-decoration:underline;text-underline-offset:4px}.update-detail-modal{position:fixed;inset:0;z-index:1300;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(38,18,29,.58);backdrop-filter:blur(7px)}.update-detail-modal.open{display:flex}.update-detail-dialog{width:min(900px,100%);max-height:88dvh;overflow:auto;background:#fff;border-radius:28px;border:1px solid #efdbe4;box-shadow:0 30px 90px rgba(64,17,42,.25);overscroll-behavior:contain}.update-detail-close{position:sticky;float:right;top:12px;margin:12px 12px -50px 0;z-index:3;width:44px;height:44px;border-radius:50%;border:1px solid #ecd5df;background:#fff;color:#84204e;font-size:24px;cursor:pointer}.update-detail-media{display:grid;gap:10px;padding:0;background:#fff7fa}.update-detail-media img{width:100%;height:auto;max-height:440px;object-fit:contain;background:#fff7fa}.update-detail-body{padding:28px 30px 32px;clear:both}.update-detail-type{display:inline-flex;padding:7px 11px;border-radius:999px;background:#fde7f0;color:#9c2d60;font-size:.74rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em}.update-detail-date{margin-top:10px;color:#9a7d89;font-size:.82rem;font-weight:750}.update-detail-body h2{margin:12px 0;color:#7f194b;font-size:clamp(1.7rem,4vw,2.45rem)}.update-detail-text{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;color:var(--ink-soft);font-size:1rem}.update-detail-link{display:inline-flex;margin-top:20px;color:#9b2459;font-weight:850}.update-detail-modal.modal-open{display:flex}
+@media(max-width:640px){.update-detail-modal{padding:0;align-items:stretch;background:#fff;backdrop-filter:none}.update-detail-dialog{width:100%;height:100dvh;max-height:none;border:0;border-radius:0;box-shadow:none}.update-detail-body{padding:22px 18px calc(30px + env(safe-area-inset-bottom))}.update-detail-media img{max-height:44dvh}.update-detail-close{top:8px;margin:8px 8px -50px 0}.update-card-excerpt{-webkit-line-clamp:3}}
 </style>
 
 <style>
@@ -1405,6 +1407,18 @@
 </script>
 
 <script>
+window.ENCITA_UPDATE_ITEMS = window.ENCITA_UPDATE_ITEMS || new Map();
+(function(){
+  const modal=()=>document.getElementById('updateDetailModal'); let updateScrollY=0;
+  function lock(){updateScrollY=window.scrollY||window.pageYOffset||0;document.documentElement.classList.add('modal-open');document.body.classList.add('modal-open');document.body.style.top=`-${updateScrollY}px`}
+  function unlock(){document.documentElement.classList.remove('modal-open');document.body.classList.remove('modal-open');document.body.style.top='';window.scrollTo(0,updateScrollY)}
+  window.openEncitaUpdate=function(key){const item=window.ENCITA_UPDATE_ITEMS.get(key);const m=modal();if(!item||!m)return;const media=document.getElementById('updateDetailMedia');media.innerHTML='';(item.images||[]).forEach((src,i)=>{const img=new Image();img.src=src;img.alt=(item.title||'Encita update')+(i?` image ${i+1}`:'');img.loading=i?'lazy':'eager';img.decoding='async';if(!i)img.fetchPriority='high';media.appendChild(img)});media.hidden=!(item.images||[]).length;document.getElementById('updateDetailType').textContent=item.type||'Clinic update';document.getElementById('updateDetailDate').textContent=item.date||'';document.getElementById('updateDetailDate').hidden=!item.date;document.getElementById('updateDetailTitle').textContent=item.title||'Clinic update';document.getElementById('updateDetailText').textContent=item.body||'No additional details.';const link=document.getElementById('updateDetailLink');if(item.link){link.href=item.link;link.hidden=false}else{link.hidden=true;link.removeAttribute('href')}lock();m.classList.add('open');m.setAttribute('aria-hidden','false');m.querySelector('.update-detail-dialog').scrollTop=0;document.getElementById('updateDetailClose')?.focus()};
+  function close(){const m=modal();if(!m||!m.classList.contains('open'))return;m.classList.remove('open');m.setAttribute('aria-hidden','true');unlock()}
+  document.addEventListener('click',e=>{if(e.target?.id==='updateDetailClose'||e.target?.id==='updateDetailModal'){close();return}const card=e.target.closest?.('.update-open-card');if(card?.dataset.updateKey){e.preventDefault();window.openEncitaUpdate?.(card.dataset.updateKey)}});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal()?.classList.contains('open')){close();return}if((e.key==='Enter'||e.key===' ')&&e.target?.classList?.contains('update-open-card')){e.preventDefault();window.openEncitaUpdate?.(e.target.dataset.updateKey)}});
+})();
+</script>
+
+<script>
 (async function loadEncitaContent(){
   const cfg=window.ENCITA_SUPABASE||{};
   if(!cfg.url||!cfg.anonKey||cfg.url.includes('YOUR_')||!window.supabase) return;
@@ -1415,7 +1429,7 @@
   try{
     const [{data:reviews,error:rErr},{data:news,error:nErr}]=await Promise.all([
       client.from('clinic_reviews').select('*').eq('is_published',true).order('sort_order',{ascending:true}).order('review_date',{ascending:false}),
-      client.from('clinic_news').select('*').eq('is_published',true).order('published_date',{ascending:false}).order('created_at',{ascending:false})
+      client.from('clinic_news').select('*').eq('is_published',true).eq('is_deleted',false).order('published_date',{ascending:false}).order('created_at',{ascending:false})
     ]);
     if(!rErr&&reviews){
       // Facebook currently shows 14 recommendations. Reviews published through the
@@ -1439,7 +1453,9 @@
     }
     if(!nErr&&news&&news.length){
       const grid=document.getElementById('newsGrid');
-      grid.innerHTML=news.map(n=>`<article class="news-card reveal in"><div class="news-image">${n.image_url?`<img src="${esc(n.image_url)}" alt="${esc(n.title||'Encita clinic update')}" loading="lazy">`:''}</div><div class="news-body"><div class="news-date">${esc(fmtDate(n.published_date))}</div><h3>${esc(n.title)}</h3><p>${esc(n.caption||'')}</p></div></article>`).join('');
+      news.forEach(n=>window.ENCITA_UPDATE_ITEMS?.set('news-'+n.id,{type:'News & update',title:n.title||'Clinic update',date:fmtDate(n.published_date),body:n.caption||'',images:(Array.isArray(n.image_urls)&&n.image_urls.length?n.image_urls:(n.image_url?[n.image_url]:[])),link:''}));
+      const announcementCards=[...grid.querySelectorAll('.announcement-card')].map(el=>el.outerHTML).join('');
+      grid.innerHTML=announcementCards+news.map(n=>`<article class="news-card reveal in update-open-card" role="button" tabindex="0" data-update-key="news-${n.id}" aria-label="Open ${esc(n.title||'clinic update')}"><div class="news-image">${n.image_url?`<img src="${esc(n.image_url)}" alt="${esc(n.title||'Encita clinic update')}" loading="lazy" decoding="async">`:''}</div><div class="news-body"><div class="news-date">${esc(fmtDate(n.published_date))}</div><h3>${esc(n.title)}</h3><p class="update-card-excerpt">${esc(n.caption||'')}</p><button type="button" class="update-read-more">Read full update →</button></div></article>`).join('');
     }
   }catch(e){console.warn('Encita reviews/news could not be loaded.',e)}
 })();
@@ -1470,7 +1486,8 @@
  const updatesGrid=document.getElementById('newsGrid');
  if(updatesGrid&&activeAnnouncements.length){
    updatesGrid.querySelectorAll('.cms-empty').forEach(el=>el.remove());
-   const announcementHtml=activeAnnouncements.map(a=>`<article class="news-card announcement-card reveal in"><div class="news-body"><div class="announcement-badge">Clinic announcement</div><h3>${esc(a.title||'Clinic announcement')}</h3>${a.message?`<p>${esc(a.message)}</p>`:''}${a.link_url?`<a class="announcement-more" href="${esc(a.link_url)}" target="_blank" rel="noopener">Learn more →</a>`:''}</div></article>`).join('');
+   activeAnnouncements.forEach(a=>window.ENCITA_UPDATE_ITEMS?.set('announcement-'+a.id,{type:'Clinic announcement',title:a.title||'Clinic announcement',date:'',body:a.message||'',images:[],link:a.link_url||''}));
+   const announcementHtml=activeAnnouncements.map(a=>`<article class="news-card announcement-card reveal in update-open-card" role="button" tabindex="0" data-update-key="announcement-${a.id}" aria-label="Open ${esc(a.title||'clinic announcement')}"><div class="news-body"><div class="announcement-badge">Clinic announcement</div><h3>${esc(a.title||'Clinic announcement')}</h3>${a.message?`<p class="update-card-excerpt">${esc(a.message)}</p>`:''}<button type="button" class="update-read-more" data-update-key="announcement-${a.id}">Read full announcement →</button></div></article>`).join('');
    updatesGrid.insertAdjacentHTML('afterbegin',announcementHtml);
    activeAnnouncements.forEach(a=>addSearch('Announcement',a.title||'Clinic announcement',a.message||'','#updates'));
  }
@@ -1527,6 +1544,7 @@
 </script>
 
 <button class="search-fab" id="searchFab" aria-label="Search website">⌕</button>
+<div class="update-detail-modal" id="updateDetailModal" role="dialog" aria-modal="true" aria-labelledby="updateDetailTitle" aria-hidden="true"><div class="update-detail-dialog"><button class="update-detail-close" id="updateDetailClose" type="button" aria-label="Close update details">×</button><div class="update-detail-media" id="updateDetailMedia"></div><div class="update-detail-body"><span class="update-detail-type" id="updateDetailType"></span><div class="update-detail-date" id="updateDetailDate"></div><h2 id="updateDetailTitle"></h2><div class="update-detail-text" id="updateDetailText"></div><a class="update-detail-link" id="updateDetailLink" href="#" target="_blank" rel="noopener" hidden>Open related link →</a></div></div></div>
 <div class="search-modal" id="searchModal"><div class="search-box"><div style="display:flex;gap:10px;align-items:center"><input id="siteSearch" placeholder="Search services, FAQ, news, team…"><button class="btn btn-ghost" id="searchClose" type="button">Close</button></div><div id="searchResults" style="margin-top:12px"></div></div></div>
 <div class="lightbox" id="lightbox"><button type="button" id="lightboxClose">×</button><img id="lightboxImg" alt="Expanded clinic photo"></div>
 <div class="mobile-contact"><a href="tel:+639368170918"><b>☎</b>Call</a><a href="https://www.facebook.com/encitalyinginclinic/" target="_blank" rel="noopener"><b>f</b>Facebook</a><a href="#visit"><b>⌖</b>Directions</a><a href="#appointment"><b>＋</b>Appointment</a></div>
