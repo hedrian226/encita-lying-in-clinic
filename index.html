@@ -745,6 +745,31 @@
   }
   @media(max-width:420px){.service-modal-content{padding-left:16px;padding-right:16px}.service-modal-media img{max-height:42dvh}}
 
+
+.announcement-card{border:1px solid rgba(220,43,112,.18);background:linear-gradient(145deg,#fff,#fff7fa)}
+.announcement-card .news-body{padding:24px}.announcement-badge{display:inline-flex;padding:6px 11px;border-radius:999px;background:#fde7f0;color:#a5285b;font-size:.75rem;font-weight:800;text-transform:uppercase;margin-bottom:12px}.announcement-more{display:inline-flex;margin-top:16px;color:#a5285b;font-weight:800;text-decoration:none}
+@media(max-width:640px){.announcement-card .news-body{padding:18px}}
+</style>
+
+<style>
+/* V25: CMS team cards are injected after the original reveal observer runs.
+   Force injected cards visible and keep team photos responsive. */
+#teamGrid .team-card.reveal{opacity:1!important;transform:none!important}
+#teamGrid .team-card{overflow:hidden;padding:0;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 14px 34px -28px rgba(77,28,49,.35)}
+#teamGrid .team-photo{margin:0;aspect-ratio:4/3;border-radius:0;background:linear-gradient(135deg,var(--rose-100),#fff);display:grid;place-items:center;overflow:hidden}
+#teamGrid .team-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .35s ease}
+#teamGrid .team-card:hover .team-photo img{transform:scale(1.025)}
+#teamGrid .team-card-body{padding:20px}
+#teamGrid .team-card h3{margin:12px 0 4px}
+#teamGrid .team-specialty{margin-top:2px}
+#teamGrid .team-schedule{margin-top:14px;padding:11px 12px;border-radius:13px;background:var(--rose-100);display:flex;flex-direction:column;gap:2px;color:var(--ink-soft);font-size:.9rem}
+#teamGrid .team-schedule strong{color:var(--sage-900);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+#teamGrid .team-bio{margin-top:14px}
+#teamGrid .team-photo-placeholder,#teamGrid .photo-error::after{font-size:3.2rem;color:var(--rose-500);font-family:var(--serif)}
+#teamGrid .photo-error::after{content:'♡'}
+@media(max-width:900px){#teamGrid.team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){#teamGrid.team-grid{grid-template-columns:1fr;gap:16px}#teamGrid .team-card-body{padding:18px}#teamGrid .team-photo{aspect-ratio:16/11}}
+@media(prefers-reduced-motion:reduce){#teamGrid .team-card:hover .team-photo img{transform:none}}
 </style>
 </head>
 <body>
@@ -1437,11 +1462,20 @@
    safe('clinic_faqs',q=>q.eq('is_published',true).eq('is_deleted',false).order('sort_order',{ascending:true})),
    safe('clinic_services',q=>q.eq('is_published',true).eq('is_deleted',false).order('sort_order',{ascending:true}))
  ]);
- // Announcement with date window
- const now=new Date(); const active=ann.find(a=>(!a.starts_at||new Date(a.starts_at)<=now)&&(!a.ends_at||new Date(a.ends_at)>=now));
+ // Announcements: show active published notices both as the optional top banner and inside Updates.
+ const now=new Date();
+ const activeAnnouncements=ann.filter(a=>(!a.starts_at||new Date(a.starts_at)<=now)&&(!a.ends_at||new Date(a.ends_at)>=now));
+ const active=activeAnnouncements[0];
  if(active&&!sessionStorage.getItem('encita-ann-'+active.id)){const bar=document.getElementById('announcementBar'),txt=document.getElementById('announcementText'),lnk=document.getElementById('announcementLink');txt.textContent=active.title+(active.message?' — '+active.message:'');if(active.link_url){lnk.href=active.link_url;lnk.classList.remove('v11-hidden')}bar.classList.remove('v11-hidden');document.getElementById('announcementClose').onclick=()=>{bar.classList.add('v11-hidden');sessionStorage.setItem('encita-ann-'+active.id,'1')}}
+ const updatesGrid=document.getElementById('newsGrid');
+ if(updatesGrid&&activeAnnouncements.length){
+   updatesGrid.querySelectorAll('.cms-empty').forEach(el=>el.remove());
+   const announcementHtml=activeAnnouncements.map(a=>`<article class="news-card announcement-card reveal in"><div class="news-body"><div class="announcement-badge">Clinic announcement</div><h3>${esc(a.title||'Clinic announcement')}</h3>${a.message?`<p>${esc(a.message)}</p>`:''}${a.link_url?`<a class="announcement-more" href="${esc(a.link_url)}" target="_blank" rel="noopener">Learn more →</a>`:''}</div></article>`).join('');
+   updatesGrid.insertAdjacentHTML('afterbegin',announcementHtml);
+   activeAnnouncements.forEach(a=>addSearch('Announcement',a.title||'Clinic announcement',a.message||'','#updates'));
+ }
  // Team
- const tg=document.getElementById('teamGrid'); if(team.length){tg.innerHTML=team.map(t=>`<article class="v11-card reveal"><div class="team-photo">${t.photo_url?`<img src="${esc(t.photo_url)}" alt="${esc(t.name)}" loading="lazy">`:''}</div><span class="v11-pill">${esc(t.role||'Care team')}</span><h3>${esc(t.name)}</h3><p class="v11-muted">${esc(t.specialty||'')}</p>${t.schedule_text?`<p style="margin-top:8px"><strong>Schedule:</strong> ${esc(t.schedule_text)}</p>`:''}${t.bio?`<p class="v11-muted" style="margin-top:10px">${esc(t.bio)}</p>`:''}</article>`).join('');team.forEach(t=>addSearch('Team',t.name,(t.role||'')+' '+(t.specialty||'')+' '+(t.bio||''),'#team'))}
+ const tg=document.getElementById('teamGrid'); if(team.length){tg.innerHTML=team.map(t=>`<article class="v11-card team-card reveal in"><div class="team-photo">${t.photo_url?`<img src="${esc(t.photo_url)}" alt="${esc(t.name||'Encita care team member')}" loading="lazy" decoding="async" onerror="this.closest('.team-photo').classList.add('photo-error');this.remove()">`:`<div class="team-photo-placeholder" aria-hidden="true">♡</div>`}</div><div class="team-card-body"><span class="v11-pill">${esc(t.role||'Care team')}</span><h3>${esc(t.name)}</h3>${t.specialty?`<p class="v11-muted team-specialty">${esc(t.specialty)}</p>`:''}${t.schedule_text?`<p class="team-schedule"><strong>Availability</strong><span>${esc(t.schedule_text)}</span></p>`:''}${t.bio?`<p class="v11-muted team-bio">${esc(t.bio)}</p>`:''}</div></article>`).join('');team.forEach(t=>addSearch('Team',t.name,(t.role||'')+' '+(t.specialty||'')+' '+(t.bio||''),'#team'))}
  // Gallery
  const gg=document.getElementById('galleryGrid'); if(gallery.length){gg.innerHTML=gallery.map(g=>`<figure class="gallery-item" data-full="${esc(g.image_url||'')}">${g.image_url?`<img src="${esc(g.image_url)}" alt="${esc(g.caption||g.category||'Encita clinic photo')}" loading="lazy">`:''}<figcaption class="gallery-caption"><strong>${esc(g.category||'Gallery')}</strong>${g.caption?`<br>${esc(g.caption)}`:''}</figcaption></figure>`).join('');gallery.forEach(g=>addSearch('Gallery',g.category||'Clinic photo',g.caption||'','#gallery'));gg.querySelectorAll('.gallery-item').forEach(el=>el.onclick=()=>{if(!el.dataset.full)return;document.getElementById('lightboxImg').src=el.dataset.full;document.getElementById('lightbox').classList.add('open')})}
  // FAQ
